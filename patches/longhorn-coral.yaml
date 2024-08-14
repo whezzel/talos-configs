@@ -1,0 +1,10 @@
+machine:
+  install:
+    image: factory.talos.dev/installer/9a272661582ed02d50e93881edb70d359938975ed5a6752f9373a274377718a7:v1.7.5 # Boot assets - gasket-driver, iscsi-tools, util-linux-tools
+  kernel:
+    modules:
+      - name: apex
+      - name: gasket
+  udev:
+    rules:
+      - SUBSYSTEM=="apex", MODE="0660", GROUP="44"

@@ -1,0 +1,11 @@
+machine:
+  install:
+    image: factory.talos.dev/installer/8f8a8d4be4bde03c257e0cac6274c567053a5ed8dfa0a00ce234abef61e5067d:v1.7.5 # Boot assets - iscsi-tools, util-linux-tools, nvidia-container-toolkit, nonfree-kmod-nvidia
+  kernel:
+    modules:
+      - name: nvidia
+      - name: nvidia_uvm
+      - name: nvidia_drm
+      - name: nvidia_modeset
+  sysctls:
+    net.core.bpf_jit_harden: 1

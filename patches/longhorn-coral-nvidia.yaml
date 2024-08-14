@@ -1,0 +1,16 @@
+machine:
+  install:
+    image: factory.talos.dev/installer/9133d33d07740d3addfb26786810f58140f2f2ceb275efa6b9ca5ecac306cec8:v1.7.5 # Boot assets - gasket-driver, iscsi-tools, util-linux-tools, nvidia-container-toolkit, nonfree-kmod-nvidia
+  kernel:
+    modules:
+      - name: apex
+      - name: gasket
+      - name: nvidia
+      - name: nvidia_uvm
+      - name: nvidia_drm
+      - name: nvidia_modeset
+  udev:
+    rules:
+      - SUBSYSTEM=="apex", MODE="0660", GROUP="44"
+  sysctls:
+    net.core.bpf_jit_harden: 1

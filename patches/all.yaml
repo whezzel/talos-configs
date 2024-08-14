@@ -1,0 +1,59 @@
+machine:
+  kubelet:
+    #image: ghcr.io/siderolabs/kubelet:v1.29.7
+    extraArgs:
+      rotate-server-certificates: true
+    extraMounts:
+      - destination: /var/mnt
+        type: bind
+        source: /var/mnt
+        options:
+          - bind
+          - rshared
+          - rw
+  certSANs:
+      - talos-api.whezzel.com
+  install:
+    diskSelector:
+        size: '>=64GB'
+        model: Flash Drive FIT
+    wipe: true
+  network:
+    extraHostEntries:
+      - ip: 10.69.20.11
+        aliases:
+          - talos01
+          - talos01.whezzel.com
+      - ip: 10.69.20.12
+        aliases:
+          - talos02
+          - talos02.whezzel.com
+      - ip: 10.69.20.13
+        aliases:
+          - talos03
+          - talos03.whezzel.com
+      - ip: 10.69.20.14
+        aliases:
+          - talos04
+          - talos04.whezzel.com
+      - ip: 10.69.20.15
+        aliases:
+          - talos05
+          - talos05.whezzel.com
+  #  kubespan:
+  #    enabled: true
+  #features:
+  #  kubePrism:
+  #      enabled: false
+  #  hostDNS:
+  #    enabled: true
+  #    resolveMemberNames: true
+#cluster:
+#  apiServer:
+#    image: registry.k8s.io/kube-apiserver:v1.29.7
+#  controllerManager:
+#    image: registry.k8s.io/kube-controller-manager:v1.29.7
+#  proxy:
+#    image: registry.k8s.io/kube-proxy:v1.29.7
+#  scheduler:
+#    image: registry.k8s.io/kube-scheduler:v1.29.7

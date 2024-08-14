@@ -1,0 +1,12 @@
+machine:
+  certSANs:
+      - talos03.whezzel.com
+  network:
+    hostname: talos03
+  disks:
+      - device: /dev/nvme0n1
+        partitions:
+          - mountpoint: /var/mnt/longhorn00
+      - device: /dev/sdb
+        partitions:
+          - mountpoint: /var/mnt/longhorn01
