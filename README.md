@@ -33,11 +33,11 @@ talosctl config endpoint talos-api.whezzel.com
 Generate machine config files:
 
 ```sh
-talosctl machineconfig patch controlplane.yaml -p @patches/all.yaml -p @patches/controlplane-worker.yaml -p @patches/longhorn-coral-nvidia.yaml -p @patches/talos01.yaml -o talos01.yaml
-talosctl machineconfig patch controlplane.yaml -p @patches/all.yaml -p @patches/controlplane-worker.yaml -p @patches/longhorn-coral-nvidia.yaml -p @patches/talos02.yaml -o talos02.yaml
+talosctl machineconfig patch worker.yaml -p @patches/all.yaml -p @patches/longhorn-coral-nvidia.yaml -p @patches/talos01.yaml -o talos01.yaml
+talosctl machineconfig patch worker.yaml -p @patches/all.yaml -p @patches/longhorn-coral-nvidia.yaml -p @patches/talos02.yaml -o talos02.yaml
 talosctl machineconfig patch controlplane.yaml -p @patches/all.yaml -p @patches/controlplane-worker.yaml -p @patches/longhorn.yaml -p @patches/talos03.yaml -o talos03.yaml
-talosctl machineconfig patch worker.yaml -p @patches/all.yaml -p @patches/longhorn.yaml -p @patches/talos04.yaml -o talos04.yaml
-talosctl machineconfig patch worker.yaml -p @patches/all.yaml -p @patches/longhorn.yaml -p @patches/talos05.yaml -o talos05.yaml
+talosctl machineconfig patch controlplane.yaml -p @patches/all.yaml -p @patches/controlplane-worker.yaml -p @patches/longhorn.yaml -p @patches/talos04.yaml -o talos04.yaml
+talosctl machineconfig patch controlplane.yaml -p @patches/all.yaml -p @patches/controlplane-worker.yaml -p @patches/longhorn.yaml -p @patches/talos05.yaml -o talos05.yaml
 ```
 
 ## Deploy Talos Linux
