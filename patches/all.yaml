@@ -1,6 +1,5 @@
 machine:
   kubelet:
-    #image: ghcr.io/siderolabs/kubelet:v1.29.7
     extraArgs:
       rotate-server-certificates: true
     extraMounts:
@@ -11,15 +10,18 @@ machine:
           - bind
           - rshared
           - rw
-  certSANs:
-      - talos-api.whezzel.com
   install:
     diskSelector:
         size: '>=64GB'
         model: Flash Drive FIT
-    wipe: true
+    wipe: false
+    extraKernelArgs:
+      - net.ifnames=0
   network:
     extraHostEntries:
+      - ip: 10.69.20.10
+        aliases:
+          - talos-api.whezzel.com
       - ip: 10.69.20.11
         aliases:
           - talos01
@@ -40,20 +42,3 @@ machine:
         aliases:
           - talos05
           - talos05.whezzel.com
-  #  kubespan:
-  #    enabled: true
-  #features:
-  #  kubePrism:
-  #      enabled: false
-  #  hostDNS:
-  #    enabled: true
-  #    resolveMemberNames: true
-#cluster:
-#  apiServer:
-#    image: registry.k8s.io/kube-apiserver:v1.29.7
-#  controllerManager:
-#    image: registry.k8s.io/kube-controller-manager:v1.29.7
-#  proxy:
-#    image: registry.k8s.io/kube-proxy:v1.29.7
-#  scheduler:
-#    image: registry.k8s.io/kube-scheduler:v1.29.7

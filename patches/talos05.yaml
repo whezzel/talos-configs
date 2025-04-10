@@ -1,12 +1,13 @@
 machine:
   certSANs:
       - talos05.whezzel.com
+      - talos-api.whezzel.com
   network:
     hostname: talos05
   disks:
       - device: /dev/nvme0n1
         partitions:
           - mountpoint: /var/mnt/longhorn00
-      - device: /dev/sdb
+      - device: /dev/sda
         partitions:
-          - mountpoint: /var/mnt/longhorn01
+          - mountpoint: /var/mnt/storage

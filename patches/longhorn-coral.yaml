@@ -1,6 +1,9 @@
+# currently unused
 machine:
   install:
-    image: factory.talos.dev/installer/9a272661582ed02d50e93881edb70d359938975ed5a6752f9373a274377718a7:v1.7.5 # Boot assets - gasket-driver, iscsi-tools, util-linux-tools
+    # Run the following command to generate the image id
+    # curl -s -X POST --data-binary @/home/zach/repos/talos/customization/longhorn-coral.yaml https://factory.talos.dev/schematics | cut -d\" -f4
+    image: factory.talos.dev/installer/f6616b185a647432d0c659ae10ff434dbbe2bf340035f464fd77d0a8a0675ee8:v1.9.5
   kernel:
     modules:
       - name: apex

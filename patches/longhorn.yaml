@@ -1,3 +1,6 @@
+# talos03, talos04, talos05
 machine:
   install:
-    image: factory.talos.dev/installer/613e1592b2da41ae5e265e8789429f22e121aab91cb4deb6bc3c0b6262961245:v1.7.5 # Boot assets - iscsi-tools, util-linux-tools
+    # Run the following command to generate the image id
+    # curl -s -X POST --data-binary @/home/zach/repos/talos/customization/longhorn.yaml https://factory.talos.dev/schematics | cut -d\" -f4
+    image: factory.talos.dev/installer/249d9135de54962744e917cfe654117000cba369f9152fbab9d055a00aa3664f:v1.9.5

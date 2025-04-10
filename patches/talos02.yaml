@@ -9,4 +9,4 @@ machine:
           - mountpoint: /var/mnt/longhorn00
       - device: /dev/nvme1n1
         partitions:
-          - mountpoint: /var/mnt/longhorn01
+          - mountpoint: /var/mnt/storage
