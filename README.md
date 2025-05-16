@@ -1,6 +1,6 @@
 # Talos Linux Installation
 
-> - `talos-api.whezzel.com` is an A record that points to my 3 control-plane nodes
+> - `talos-api.whezzel.com` is an A record that points to the talos vip (10.69.20.10)
 > - each node has an A record as well
 
 ## Preparation
@@ -21,7 +21,7 @@ Copy talosconfig to appropriate location:
 
 ```sh
 mkdir ~/.talos
-cp ~/repos/talos/talosconfig ~/.talos/config
+cp ~/repos/talos/talosconfig ~/.config/talos/config
 ```
 
 Add endpoint to talosconfig
@@ -45,17 +45,17 @@ talosctl machineconfig patch controlplane.yaml -p @patches/all.yaml -p @patches/
 Deploy control-plane (you only need `--insecure` for the initial deployment):
 
 ```sh
-talosctl apply-config -n talos01.whezzel.com --file ~/repos/talos/talos01.yaml
-talosctl apply-config -n talos02.whezzel.com --file ~/repos/talos/talos02.yaml
-talosctl apply-config -n talos03.whezzel.com --file ~/repos/talos/talos03.yaml
-talosctl apply-config -n talos04.whezzel.com --file ~/repos/talos/talos04.yaml
-talosctl apply-config -n talos05.whezzel.com --file ~/repos/talos/talos05.yaml
+talosctl apply-config -n talos01 --file ~/repos/talos/talos01.yaml --insecure
+talosctl apply-config -n talos02 --file ~/repos/talos/talos02.yaml --insecure
+talosctl apply-config -n talos03 --file ~/repos/talos/talos03.yaml --insecure
+talosctl apply-config -n talos04 --file ~/repos/talos/talos04.yaml --insecure
+talosctl apply-config -n talos05 --file ~/repos/talos/talos05.yaml --insecure
 ```
 
 Bootstrap cluser:
 
 ```sh
-talosctl bootstrap -n talos-api.whezzel.com
+talosctl bootstrap -n talos05 -e talos05
 ```
 
 Export kubeconfig:

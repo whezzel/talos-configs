@@ -2,5 +2,5 @@
 machine:
   install:
     # Run the following command to generate the image id
-    # curl -s -X POST --data-binary @/home/zach/repos/talos/customization/longhorn.yaml https://factory.talos.dev/schematics | cut -d\" -f4
-    image: factory.talos.dev/installer/249d9135de54962744e917cfe654117000cba369f9152fbab9d055a00aa3664f:v1.9.5
+    # curl -s -X POST --data-binary @customization/longhorn.yaml https://factory.talos.dev/schematics | cut -d\" -f4
+    image: factory.talos.dev/installer/8b06a39934936aef96d17a7d9de98c687c79f5a0edca0d7af1547e2910d4a0fd:v1.10.0

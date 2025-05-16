@@ -1,11 +1,20 @@
+cluster:
+  clusterName: prod
 machine:
   kubelet:
     extraArgs:
       rotate-server-certificates: true
     extraMounts:
-      - destination: /var/mnt
+      - destination: /var/mnt/longhorn
         type: bind
-        source: /var/mnt
+        source: /var/mnt/longhorn
+        options:
+          - bind
+          - rshared
+          - rw
+      - destination: /var/mnt/storage
+        type: bind
+        source: /var/mnt/storage
         options:
           - bind
           - rshared
@@ -14,9 +23,7 @@ machine:
     diskSelector:
         size: '>=64GB'
         model: Flash Drive FIT
-    wipe: false
-    extraKernelArgs:
-      - net.ifnames=0
+    wipe: true
   network:
     extraHostEntries:
       - ip: 10.69.20.10

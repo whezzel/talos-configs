@@ -1,5 +1,7 @@
 # curl -X POST --data-binary @/home/zach/repos/talos/customization/longhorn-nvidia.yaml https://factory.talos.dev/schematics
 customization:
+    extraKernelArgs:
+        - net.ifnames=0
     systemExtensions:
         officialExtensions:
             - siderolabs/i915

@@ -3,10 +3,19 @@ machine:
       - talos02.whezzel.com
   network:
     hostname: talos02
-  disks:
-      - device: /dev/nvme0n1
-        partitions:
-          - mountpoint: /var/mnt/longhorn00
-      - device: /dev/nvme1n1
-        partitions:
-          - mountpoint: /var/mnt/storage
+---
+apiVersion: v1alpha1
+kind: UserVolumeConfig
+name: storage
+provisioning:
+  diskSelector:
+    match: disk.wwid == "eui.e8238fa6bf530001001b448b47d8351c"
+  minSize: 1GB
+---
+apiVersion: v1alpha1
+kind: UserVolumeConfig
+name: longhorn
+provisioning:
+  diskSelector:
+    match: disk.wwid == "nvme.1987-3438373930343539353031383331-53616272656e742053422d524f434b45542d4e564d65342d315442-00000001"
+  minSize: 1GB

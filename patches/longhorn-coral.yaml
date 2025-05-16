@@ -2,8 +2,8 @@
 machine:
   install:
     # Run the following command to generate the image id
-    # curl -s -X POST --data-binary @/home/zach/repos/talos/customization/longhorn-coral.yaml https://factory.talos.dev/schematics | cut -d\" -f4
-    image: factory.talos.dev/installer/f6616b185a647432d0c659ae10ff434dbbe2bf340035f464fd77d0a8a0675ee8:v1.9.5
+    # curl -s -X POST --data-binary @customization/longhorn-coral.yaml https://factory.talos.dev/schematics | cut -d\" -f4
+    image: factory.talos.dev/installer/8e44fda0541aac98d2b2dccf57dc255a7b26813400d215da34cd67f97dbf36fe:v1.10.0
   kernel:
     modules:
       - name: apex

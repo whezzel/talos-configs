@@ -2,8 +2,8 @@
 machine:
   install:
     # Run the following command to generate the image id
-    # curl -s -X POST --data-binary @/home/zach/repos/talos/customization/longhorn-nvidia.yaml https://factory.talos.dev/schematics | cut -d\" -f4
-    image: factory.talos.dev/installer/7252727146c2e5e4a3919189d62fa66fd6fb6bef8ad3e563054c7034b49771e2:v1.9.5
+    # curl -s -X POST --data-binary @customization/longhorn-nvidia.yaml https://factory.talos.dev/schematics | cut -d\" -f4
+    image: factory.talos.dev/installer/513c800a6903a29888e24b3bfbcd64042f3da72fcca6d04fd537d2d84d222e2c:v1.10.0
   kernel:
     modules:
       - name: nvidia
