@@ -1,7 +1,6 @@
 machine:
   certSANs:
-      - talos04.whezzel.com
-      - talos-api.whezzel.com
+    - talos04.whezzel.com
   network:
     hostname: talos04
 ---
@@ -20,3 +19,4 @@ provisioning:
   diskSelector:
     match: disk.wwid == "nvme.1987-3438373930343539353033323332-53616272656e742053422d524f434b45542d4e564d65342d315442-00000001"
   minSize: 1GB
+

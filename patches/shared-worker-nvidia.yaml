@@ -1,14 +1,18 @@
-# currently unused
 machine:
   install:
     # Run the following command to generate the image id
     # curl -s -X POST --data-binary @customization/longhorn-nvidia.yaml https://factory.talos.dev/schematics | cut -d\" -f4
-    image: factory.talos.dev/installer/513c800a6903a29888e24b3bfbcd64042f3da72fcca6d04fd537d2d84d222e2c:v1.10.0
+    image: factory.talos.dev/metal-installer/87b0873ecd8fe6cd714316dff430cc7f1f3d6e7ce381a78e5bf4263580c69452:v1.10.5
   kernel:
     modules:
+      - name: apex
+      - name: gasket
       - name: nvidia
       - name: nvidia_uvm
       - name: nvidia_drm
       - name: nvidia_modeset
+  udev:
+    rules:
+      - SUBSYSTEM=="apex", MODE="0660", GROUP="44"
   sysctls:
     net.core.bpf_jit_harden: 1

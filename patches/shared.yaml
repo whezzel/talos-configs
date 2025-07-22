@@ -4,26 +4,6 @@ machine:
   kubelet:
     extraArgs:
       rotate-server-certificates: true
-    extraMounts:
-      - destination: /var/mnt/longhorn
-        type: bind
-        source: /var/mnt/longhorn
-        options:
-          - bind
-          - rshared
-          - rw
-      - destination: /var/mnt/storage
-        type: bind
-        source: /var/mnt/storage
-        options:
-          - bind
-          - rshared
-          - rw
-  install:
-    diskSelector:
-        size: '>=64GB'
-        model: Flash Drive FIT
-    wipe: true
   network:
     extraHostEntries:
       - ip: 10.69.20.10
@@ -49,3 +29,15 @@ machine:
         aliases:
           - talos05
           - talos05.whezzel.com
+      - ip: 10.69.20.16
+        aliases:
+          - talos06
+          - talos06.whezzel.com
+      - ip: 10.69.20.17
+        aliases:
+          - talos07
+          - talos07.whezzel.com
+      - ip: 10.69.20.18
+        aliases:
+          - talos08
+          - talos08.whezzel.com

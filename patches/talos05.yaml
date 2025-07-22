@@ -1,7 +1,6 @@
 machine:
   certSANs:
-      - talos05.whezzel.com
-      - talos-api.whezzel.com
+    - talos05.whezzel.com
   network:
     hostname: talos05
 ---

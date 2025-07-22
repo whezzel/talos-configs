@@ -1,4 +1,4 @@
-# curl -X POST --data-binary @/home/zach/repos/talos/customization/longhorn-coral.yaml https://factory.talos.dev/schematics
+# curl -X POST --data-binary @customization/longhorn-coral.yaml https://factory.talos.dev/schematics
 customization:
     extraKernelArgs:
         - net.ifnames=0
@@ -8,4 +8,5 @@ customization:
             - siderolabs/i915
             - siderolabs/intel-ucode
             - siderolabs/iscsi-tools
+            - siderolabs/usb-modem-drivers
             - siderolabs/util-linux-tools

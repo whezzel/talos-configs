@@ -1,0 +1,21 @@
+machine:
+  certSANs:
+    - talos07.whezzel.com
+  network:
+    hostname: talos07
+---
+apiVersion: v1alpha1
+kind: UserVolumeConfig
+name: storage
+provisioning:
+  diskSelector:
+    match: disk.wwid == "eui.e8238fa6bf530001001b448b47d835a5"
+  minSize: 1GB
+---
+apiVersion: v1alpha1
+kind: UserVolumeConfig
+name: longhorn
+provisioning:
+  diskSelector:
+    match: disk.wwid == "nvme.1987-3438373930343539353031383632-53616272656e742053422d524f434b45542d4e564d65342d315442-00000001"
+  minSize: 1GB

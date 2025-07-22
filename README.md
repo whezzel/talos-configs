@@ -1,165 +1,189 @@
 # Talos Linux Installation
 
-> - `talos-api.whezzel.com` is an A record that points to the talos vip (10.69.20.10)
-> - each node has an A record as well
+This guide walks you through installing and configuring Talos Linux, including generating secrets, creating configuration files, deploying the control plane, bootstrapping the cluster, exporting kubeconfig, and deploying the Cilium CNI.
 
-## Preparation
+## Prerequisites
 
-Generate the secrets:
+- `talosctl` command-line tool installed.
+- `helm` command-line tool installed.
+- DNS setup:
+  - `talos-api.whezzel.com` is an A record pointing to the Talos VIP (`10.69.20.10`).
+  - Each node has its own A record.
 
-```sh
-talosctl gen secrets -o ~/repos/talos/secrets.yaml
-```
+## Step 1: Generate Secrets
 
-Generate config files:
-
-```sh
-talosctl gen config --with-secrets secrets.yaml cluster https://talos-api.whezzel.com:6443
-```
-
-Copy talosconfig to appropriate location:
+Generate secrets for Talos Linux:
 
 ```sh
-mkdir ~/.talos
-cp ~/repos/talos/talosconfig ~/.config/talos/config
+talosctl gen secrets -o secrets.yaml
 ```
 
-Add endpoint to talosconfig
+## Step 2: Generate Configuration Files
+
+Create configuration files for the cluster:
+
+```sh
+talosctl gen config prod \
+    --with-secrets secrets.yaml \
+    https://talos-api.whezzel.com:6443 \
+    --nodes talos01.whezzel.com \
+    --nodes talos02.whezzel.com \
+    --nodes talos03.whezzel.com \
+    --nodes talos04.whezzel.com \
+    --nodes talos05.whezzel.com \
+    --nodes talos06.whezzel.com \
+    --nodes talos07.whezzel.com \
+    --nodes talos08.whezzel.com \
+    --force -o ~/repos/talos
+```
+
+Move the `talosconfig` file to the correct location:
+
+```sh
+mkdir -p ~/.talos
+cp talosconfig ~/.talos/config
+```
+
+## Step 3: Generate Machine Configuration Files
+
+Patch machine configurations for each node:
+
+```sh
+talosctl machineconfig patch controlplane.yaml \
+    -p @patches/shared.yaml \
+    -p @patches/shared-controlplane.yaml \
+    -p @patches/talos01.yaml \
+    -o talos01.yaml
+talosctl machineconfig patch controlplane.yaml \
+    -p @patches/shared.yaml \
+    -p @patches/shared-controlplane.yaml \
+    -p @patches/talos02.yaml \
+    -o talos02.yaml
+talosctl machineconfig patch controlplane.yaml \
+    -p @patches/shared.yaml \
+    -p @patches/shared-controlplane.yaml \
+    -p @patches/talos03.yaml \
+    -o talos03.yaml
+talosctl machineconfig patch worker.yaml \
+    -p @patches/shared.yaml \
+    -p @patches/shared-worker.yaml \
+    -p @patches/talos04.yaml \
+    -o talos04.yaml
+talosctl machineconfig patch worker.yaml \
+    -p @patches/shared.yaml \
+    -p @patches/shared-worker.yaml \
+    -p @patches/talos05.yaml \
+    -o talos05.yaml
+talosctl machineconfig patch worker.yaml \
+    -p @patches/shared.yaml \
+    -p @patches/shared-worker.yaml \
+    -p @patches/talos06.yaml \
+    -o talos06.yaml
+talosctl machineconfig patch worker.yaml \
+    -p @patches/shared.yaml \
+    -p @patches/shared-worker.yaml \
+    -p @patches/shared-worker-nvidia.yaml \
+    -p @patches/talos07.yaml \
+    -o talos07.yaml
+talosctl machineconfig patch worker.yaml \
+    -p @patches/shared.yaml \
+    -p @patches/shared-worker.yaml \
+    -p @patches/shared-worker-nvidia.yaml \
+    -p @patches/talos08.yaml \
+    -o talos08.yaml
+```
+
+## Step 4: Configure the Talos API Endpoint
+
+Set the Talos API endpoint:
 
 ```sh
 talosctl config endpoint talos-api.whezzel.com
 ```
 
-Generate machine config files:
+## Step 5: Deploy the Control Plane
+
+Since the node lacks a certificate during initial deployment, use the `--insecure` flag to bypass authentication:
 
 ```sh
-talosctl machineconfig patch worker.yaml -p @patches/all.yaml -p @patches/longhorn-coral-nvidia.yaml -p @patches/talos01.yaml -o talos01.yaml
-talosctl machineconfig patch worker.yaml -p @patches/all.yaml -p @patches/longhorn-coral-nvidia.yaml -p @patches/talos02.yaml -o talos02.yaml
-talosctl machineconfig patch controlplane.yaml -p @patches/all.yaml -p @patches/controlplane-worker.yaml -p @patches/longhorn.yaml -p @patches/talos03.yaml -o talos03.yaml
-talosctl machineconfig patch controlplane.yaml -p @patches/all.yaml -p @patches/controlplane-worker.yaml -p @patches/longhorn.yaml -p @patches/talos04.yaml -o talos04.yaml
-talosctl machineconfig patch controlplane.yaml -p @patches/all.yaml -p @patches/controlplane-worker.yaml -p @patches/longhorn.yaml -p @patches/talos05.yaml -o talos05.yaml
+talosctl apply-config \
+    -n talos01 \
+    --file talos01.yaml \
+    --insecure \
+    --endpoint 10.69.20.11
 ```
 
-## Deploy Talos Linux
+**Note**: The `--insecure` flag is required for the initial deployment because the node does not yet have a certificate, and authentication would otherwise fail. The VIP (`talos-api.whezzel.com`) is not active until the cluster is bootstrapped, so the node's IP (`10.69.20.11`) is used as the endpoint.
 
-Deploy control-plane (you only need `--insecure` for the initial deployment):
+## Step 6: Bootstrap the Cluster
+
+Bootstrap the cluster using one of the nodes:
 
 ```sh
-talosctl apply-config -n talos01 --file ~/repos/talos/talos01.yaml --insecure
-talosctl apply-config -n talos02 --file ~/repos/talos/talos02.yaml --insecure
-talosctl apply-config -n talos03 --file ~/repos/talos/talos03.yaml --insecure
-talosctl apply-config -n talos04 --file ~/repos/talos/talos04.yaml --insecure
-talosctl apply-config -n talos05 --file ~/repos/talos/talos05.yaml --insecure
+talosctl bootstrap -n talos01 -e 10.69.20.11
 ```
 
-Bootstrap cluser:
+## Step 7: Apply Remaining Node Configurations
+
+Apply configurations to the remaining nodes (use `--insecure` as certificates are not yet issued):
 
 ```sh
-talosctl bootstrap -n talos05 -e talos05
+talosctl apply-config -n talos02 --file talos02.yaml --insecure
+talosctl apply-config -n talos03 --file talos03.yaml --insecure
+talosctl apply-config -n talos04 --file talos04.yaml --insecure
+talosctl apply-config -n talos05 --file talos05.yaml --insecure
+talosctl apply-config -n talos06 --file talos06.yaml --insecure
+talosctl apply-config -n talos07 --file talos07.yaml --insecure
+talosctl apply-config -n talos08 --file talos08.yaml --insecure
 ```
 
-Export kubeconfig:
+## Step 8: Export Kubeconfig
+
+Export the kubeconfig to interact with the cluster:
 
 ```sh
-talosctl kubeconfig -m ~/.kube/config
+talosctl kubeconfig ~/.kube/config
 ```
 
-# Configure Kubernetes
+## Step 9: Deploy Cilium CNI
 
-## Deploy Multus
+With Flannel CNI disabled, deploy Cilium as the CNI using the Helm chart.
 
-- https://www.talos.dev/v1.7/kubernetes-guides/network/multus/
+Create a `values.yaml` file for Cilium:
 
-Download copy of multus thick daemonset:
-
-```sh
-wget https://raw.githubusercontent.com/k8snetworkplumbingwg/multus-cni/master/deployments/multus-daemonset-thick.yml
+```yaml
+cni:
+  exclusive: false
+bgpControlPlane:
+  enabled: true
+cgroup:
+  autoMount:
+    enabled: false
+  hostRoot: "/sys/fs/cgroup"
+ipam:
+  mode: "kubernetes"
+k8sServiceHost: "localhost"
+k8sServicePort: "7445"
+kubeProxyReplacement: true
+kubeProxyReplacementHealthzBindAddr: "0.0.0.0:10256"
+securityContext:
+  capabilities:
+    ciliumAgent: ["CHOWN","KILL","NET_ADMIN","NET_RAW","IPC_LOCK","SYS_ADMIN","SYS_RESOURCE","DAC_OVERRIDE","FOWNER","SETGID","SETUID"]
+    cleanCiliumState: ["NET_ADMIN","SYS_ADMIN","SYS_RESOURCE"]
+image:
+  pullPolicy: "IfNotPresent"
 ```
 
-Edit `multus-daemonset-thick.yml` and change the volume `host-run-netns` from `/run/netns/` to `/var/run/netns/`:
+Deploy Cilium:
 
-```diff
-        - name: host-run-netns
-          hostPath:
--           path: /run/netns/
-+           path: /var/run/netns/
-```
-
-Deploy multus and the NetworkAttachmentDefinition:
-
-```sh
-kubectl apply -f ~/repos/talos/multus/multus-daemonset-thick.yml
-kubectl apply -f ~/repos/talos/multus/cni_conf.yaml
-```
-
-## Deploy Cert-Manager
-
- - https://cert-manager.io/docs/installation/helm/
-
-Deploy Cert Manager using helm:
-
-```sh
-helm upgrade --install cert-manager cert-manager \
-    --repo https://charts.jetstack.io \
-    --namespace cert-manager \
+```bash
+helm upgrade --install cilium cilium \
+    --repo https://helm.cilium.io \
+    --namespace cilium \
     --create-namespace \
-    --set crds.enabled=true \
-    --set 'extraArgs={--dns01-recursive-nameservers-only,--dns01-recursive-nameservers=8.8.8.8:53\,1.1.1.1:53}'
+    --values ./helm/cilium/values.yaml
 ```
 
-Apply your issuers, and certs from local manifests:
+## Post-Deployment
 
-```sh
-kubectl apply -f ~/repos/talos/helm/cert-manager
-```
-
-## Deploy ingress-nginx
-
- - https://kubernetes.github.io/ingress-nginx/deploy/
-
-Deploy ingress-nginx using helm:
-
-```sh
-helm upgrade --install nginx ingress-nginx \
-    --repo https://kubernetes.github.io/ingress-nginx \
-    --namespace nginx \
-    --create-namespace \
-    --values ~/repos/talos/helm/nginx/values.yaml
-```
-
-## Deploy keel.sh
-
-- https://keel.sh/docs/#deploying-with-helm
-
-Deploy keel.sh using helm:
-
-```sh
-helm upgrade --install keel keel \
-    --repo https://charts.keel.sh \
-    --namespace=keel \
-    --create-namespace \
-    --set "nodeSelector\.kubernetes\.io\/arch"=amd64 \
-    --values ~/repos/talos/helm/keel/values.yaml
-```
-
-## Deploy Longhorn
-
-- https://longhorn.io/docs/1.6.2/advanced-resources/os-distro-specific/talos-linux-support/
-- https://longhorn.io/docs/1.6.2/deploy/important-notes/#pod-security-policies-disabled--pod-security-admission-introduction
-- https://www.talos.dev/v1.6/kubernetes-guides/configuration/pod-security/
-
-Create namespace with needed labels to satisfy pod security requirements:
-
-```sh
-kubectl apply -f ~/repos/talos/namespaces/longhorn-system.yaml
-```
-
-Deploy Longhorn using helm:
-
-```sh
-helm repo add longhorn https://charts.longhorn.io
-helm repo update
-helm install longhorn longhorn/longhorn \
-    --namespace longhorn-system \
-    --values ~/repos/talos/helm/longhorn/values.yaml
-```
+After deploying Cilium, your cluster is ready for workloads. For load balancer services via BGP, refer to the Cilium documentation: <https://docs.cilium.io/en/stable/installation/k8s-install-helm/>.

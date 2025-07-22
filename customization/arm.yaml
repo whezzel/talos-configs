@@ -1,0 +1,19 @@
+# Run the following command to generate the image id
+# curl -s -X POST --data-binary @/home/zach/repos/talosd/customization/arm.yaml https://factory.talos.dev/schematics | cut -d\" -f4
+customization:
+    systemExtensions:
+        officialExtensions:
+            - siderolabs/usb-modem-drivers
+    extraKernelArgs:
+        - -net.ifnames
+        - net.ifnames=0
+overlay:
+    image: siderolabs/sbc-raspberrypi
+    name: rpi_generic
+    options:
+        configTxtAppend: |
+            [cm4]
+            enable_uart=1
+            dtoverlay=uart5
+            dtparam=i2c_arm=on
+            dtoverlay=i2c-rtc,ds3231

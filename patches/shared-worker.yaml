@@ -1,0 +1,25 @@
+machine:
+  install:
+    # Run the following command to generate the image id
+    # curl -s -X POST --data-binary @customization/longhorn.yaml https://factory.talos.dev/schematics | cut -d\" -f4
+    image: factory.talos.dev/metal-installer/8b06a39934936aef96d17a7d9de98c687c79f5a0edca0d7af1547e2910d4a0fd:v1.10.5
+    diskSelector:
+      size: '>= 64GB'
+      model: Flash Drive FIT
+    wipe: true
+  kubelet:
+    extraMounts:
+      - destination: /var/mnt/longhorn
+        type: bind
+        source: /var/mnt/longhorn
+        options:
+          - bind
+          - rshared
+          - rw
+      - destination: /var/mnt/storage
+        type: bind
+        source: /var/mnt/storage
+        options:
+          - bind
+          - rshared
+          - rw

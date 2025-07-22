@@ -1,4 +1,4 @@
-# curl -X POST --data-binary @/home/zach/repos/talos/customization/longhorn-coral-nvidia.yaml https://factory.talos.dev/schematics
+# curl -X POST --data-binary @customization/longhorn-coral-nvidia.yaml https://factory.talos.dev/schematics
 customization:
     extraKernelArgs:
         - net.ifnames=0
@@ -10,4 +10,5 @@ customization:
             - siderolabs/iscsi-tools
             - siderolabs/nonfree-kmod-nvidia-production
             - siderolabs/nvidia-container-toolkit-production
+            - siderolabs/usb-modem-drivers
             - siderolabs/util-linux-tools

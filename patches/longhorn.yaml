@@ -1,6 +1,0 @@
-# talos03, talos04, talos05
-machine:
-  install:
-    # Run the following command to generate the image id
-    # curl -s -X POST --data-binary @customization/longhorn.yaml https://factory.talos.dev/schematics | cut -d\" -f4
-    image: factory.talos.dev/installer/8b06a39934936aef96d17a7d9de98c687c79f5a0edca0d7af1547e2910d4a0fd:v1.10.0
