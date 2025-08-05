@@ -2,7 +2,7 @@ machine:
   install:
     # Run the following command to generate the image id
     # curl -s -X POST --data-binary @customization/longhorn.yaml https://factory.talos.dev/schematics | cut -d\" -f4
-    image: factory.talos.dev/metal-installer/8b06a39934936aef96d17a7d9de98c687c79f5a0edca0d7af1547e2910d4a0fd:v1.10.5
+    image: factory.talos.dev/metal-installer-secureboot/e93e6897d0a7ac3a3d4a799f7f595cae039a4ec04a6ffff92e7c6ab080497b70:v1.10.6
     diskSelector:
       size: '>= 64GB'
       model: Flash Drive FIT

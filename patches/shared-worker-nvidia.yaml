@@ -1,8 +1,8 @@
 machine:
   install:
     # Run the following command to generate the image id
-    # curl -s -X POST --data-binary @customization/longhorn-nvidia.yaml https://factory.talos.dev/schematics | cut -d\" -f4
-    image: factory.talos.dev/metal-installer/87b0873ecd8fe6cd714316dff430cc7f1f3d6e7ce381a78e5bf4263580c69452:v1.10.5
+    # curl -s -X POST --data-binary @customization/longhorn-coral-nvidia.yaml https://factory.talos.dev/schematics | cut -d\" -f4
+    image: factory.talos.dev/metal-installer-secureboot/2ccb2b7456df7435281a6691b2eb0da3ce16dccad61307b364d5d514d2b34a6a:v1.10.6
   kernel:
     modules:
       - name: apex
