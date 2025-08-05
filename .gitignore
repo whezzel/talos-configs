@@ -1,5 +1,7 @@
 **secret**
 /.archive
+/*.iso
+/*.raw
 /controlplane*.yaml
 /talos[0-9][0-9].yaml
 /talosconfig*
