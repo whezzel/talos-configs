@@ -1,5 +1,3 @@
-cluster:
-  clusterName: prod
 machine:
   kubelet:
     extraArgs:
@@ -41,3 +39,5 @@ machine:
         aliases:
           - talos08
           - talos08.whezzel.com
+cluster:
+  clusterName: prod
