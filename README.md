@@ -113,15 +113,7 @@ talosctl machineconfig patch worker.yaml \
     -o talos08.yaml
 ```
 
-## Step 4: Configure the Talos API Endpoint
-
-Set the Talos API endpoint:
-
-```sh
-talosctl config endpoint talos-api.whezzel.com
-```
-
-## Step 5: Deploy the Control Plane
+## Step 4: Deploy the Control Plane
 
 Since the node lacks a certificate during initial deployment, use the `--insecure` flag to bypass authentication:
 
@@ -135,12 +127,22 @@ talosctl apply-config \
 
 **Note**: The `--insecure` flag is required for the initial deployment because the node does not yet have a certificate, and authentication would otherwise fail. The VIP (`talos-api.whezzel.com`) is not active until the cluster is bootstrapped, so the node's IP (`10.69.20.11`) is used as the endpoint.
 
-## Step 6: Bootstrap the Cluster
+## Step 5: Bootstrap the Cluster
 
 Bootstrap the cluster using one of the nodes:
 
 ```sh
 talosctl bootstrap -n talos01 -e 10.69.20.11
+```
+
+## Step 6: Configure the Talos API Endpoint
+
+Now that the cluster has been bootstrapped, we can set the endpoint to the talos-api VIP.
+
+Set the Talos API endpoint:
+
+```sh
+talosctl config endpoint talos-api.whezzel.com
 ```
 
 ## Step 7: Apply Remaining Node Configurations
