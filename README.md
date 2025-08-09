@@ -10,6 +10,26 @@ This guide walks you through installing and configuring Talos Linux, including g
   - `talos-api.whezzel.com` is an A record pointing to the Talos VIP (`10.69.20.10`).
   - Each node has its own A record.
 
+## Download and Boot the SecureBoot ISO
+
+For the initial installation, download the SecureBoot ISO from the Talos image factory. The basic configuration (without any system extensions or other config options) uses the image ID `376567988ad370138ad8b2698212367b8edcb69b5fd68c80be1f2ec7d603b4ba`. Since this is just the boot ISO, it doesn't require special configuration.
+
+> [!NOTE]
+> If you need additional system extensions to support specific hardware, generate a new image ID at <https://factory.talos.dev/>.
+
+Download the ISO:
+
+```sh
+VERSION=<VERSION>
+IMAGE_ID=376567988ad370138ad8b2698212367b8edcb69b5fd68c80be1f2ec7d603b4ba
+wget -c https://factory.talos.dev/image/${IMAGE_ID}/v${VERSION}/metal-amd64-secureboot.iso -O metal-amd64-secureboot-v${VERSION}.iso
+```
+
+> [!NOTE]
+> Replace `<VERSION>` with the version number of Talos you intend to install, e.g., 1.10.6.
+
+Boot each node from this ISO to start Talos in memory mode before applying configurations.
+
 ## Step 1: Generate Secrets
 
 Generate secrets for Talos Linux:
