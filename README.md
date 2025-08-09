@@ -199,7 +199,7 @@ image:
 
 Deploy Cilium:
 
-```bash
+```sh
 helm upgrade --install cilium cilium \
     --repo https://helm.cilium.io \
     --namespace cilium \
