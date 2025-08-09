@@ -1,15 +1,15 @@
-# curl -X POST --data-binary @customization/longhorn-coral-nvidia.yaml https://factory.talos.dev/schematics
+# curl -s -X POST --data-binary @customization/longhorn-coral-nvidia.yaml https://factory.talos.dev/schematics | cut -d\" -f4
 customization:
-    extraKernelArgs:
-        - net.ifnames=0
-        - talos.device.settle_time=30s
-    systemExtensions:
-        officialExtensions:
-            - siderolabs/gasket-driver
-            - siderolabs/i915
-            - siderolabs/intel-ucode
-            - siderolabs/iscsi-tools
-            - siderolabs/nonfree-kmod-nvidia-production
-            - siderolabs/nvidia-container-toolkit-production
-            - siderolabs/usb-modem-drivers
-            - siderolabs/util-linux-tools
+  extraKernelArgs:
+    - net.ifnames=0
+    - talos.device.settle_time=30s
+  systemExtensions:
+    officialExtensions:
+      - siderolabs/gasket-driver
+      - siderolabs/i915
+      - siderolabs/intel-ucode
+      - siderolabs/iscsi-tools
+      - siderolabs/nonfree-kmod-nvidia-production
+      - siderolabs/nvidia-container-toolkit-production
+      - siderolabs/usb-modem-drivers
+      - siderolabs/util-linux-tools

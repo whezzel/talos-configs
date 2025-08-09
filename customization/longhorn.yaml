@@ -1,12 +1,12 @@
-# curl -X POST --data-binary @customization/longhorn.yaml https://factory.talos.dev/schematics
+# curl -s -X POST --data-binary @customization/longhorn.yaml https://factory.talos.dev/schematics | cut -d\" -f4
 customization:
-    extraKernelArgs:
-        - net.ifnames=0
-        - talos.device.settle_time=30s
-    systemExtensions:
-        officialExtensions:
-            - siderolabs/i915
-            - siderolabs/intel-ucode
-            - siderolabs/iscsi-tools
-            - siderolabs/usb-modem-drivers
-            - siderolabs/util-linux-tools
+  extraKernelArgs:
+    - net.ifnames=0
+    - talos.device.settle_time=30s
+  systemExtensions:
+    officialExtensions:
+      - siderolabs/i915
+      - siderolabs/intel-ucode
+      - siderolabs/iscsi-tools
+      - siderolabs/usb-modem-drivers
+      - siderolabs/util-linux-tools
