@@ -125,7 +125,8 @@ talosctl apply-config \
     --endpoint 10.69.20.11
 ```
 
-**Note**: The `--insecure` flag is required for the initial deployment because the node does not yet have a certificate, and authentication would otherwise fail. The VIP (`talos-api.whezzel.com`) is not active until the cluster is bootstrapped, so the node's IP (`10.69.20.11`) is used as the endpoint.
+> [!NOTE]
+> The `--insecure` flag is required for the initial deployment because the node does not yet have a certificate, and authentication would otherwise fail. The VIP (`talos-api.whezzel.com`) is not active until the cluster is bootstrapped, so the node's IP (`10.69.20.11`) is used as the endpoint.
 
 ## Step 5: Bootstrap the Cluster
 
