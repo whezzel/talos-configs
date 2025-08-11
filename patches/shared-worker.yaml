@@ -23,3 +23,14 @@ machine:
     # curl -s -X POST --data-binary @customization/longhorn.yaml https://factory.talos.dev/schematics | cut -d\" -f4
     image: factory.talos.dev/metal-installer-secureboot/e93e6897d0a7ac3a3d4a799f7f595cae039a4ec04a6ffff92e7c6ab080497b70:v1.10.6
     wipe: true
+  systemDiskEncryption:
+    state:
+      provider: luks2
+      keys:
+        - slot: 0
+          tpm: {}
+    ephemeral:
+      provider: luks2
+      keys:
+        - slot: 0
+          tpm: {}
