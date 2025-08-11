@@ -35,7 +35,7 @@ Boot each node from this ISO to start Talos in memory mode before applying confi
 Generate secrets for Talos Linux:
 
 ```sh
-talosctl gen secrets -o secrets.yaml
+talosctl gen secrets --output secrets.yaml
 ```
 
 ## Step 2: Generate Configuration Files
@@ -54,13 +54,13 @@ talosctl gen config prod \
     --nodes talos06.whezzel.com \
     --nodes talos07.whezzel.com \
     --nodes talos08.whezzel.com \
-    --force -o ~/repos/talos
+    --force --output ~/repos/talos
 ```
 
 Move the `talosconfig` file to the correct location:
 
 ```sh
-mkdir -p ~/.talos
+mkdir --parent ~/.talos
 cp talosconfig ~/.talos/config
 ```
 
@@ -70,47 +70,47 @@ Patch machine configurations for each node:
 
 ```sh
 talosctl machineconfig patch controlplane.yaml \
-    -p @patches/shared.yaml \
-    -p @patches/shared-controlplane.yaml \
-    -p @patches/talos01.yaml \
-    -o talos01.yaml
+    --patch @patches/shared.yaml \
+    --patch @patches/shared-controlplane.yaml \
+    --patch @patches/talos01.yaml \
+    --output talos01.yaml
 talosctl machineconfig patch controlplane.yaml \
-    -p @patches/shared.yaml \
-    -p @patches/shared-controlplane.yaml \
-    -p @patches/talos02.yaml \
-    -o talos02.yaml
+    --patch @patches/shared.yaml \
+    --patch @patches/shared-controlplane.yaml \
+    --patch @patches/talos02.yaml \
+    --output talos02.yaml
 talosctl machineconfig patch controlplane.yaml \
-    -p @patches/shared.yaml \
-    -p @patches/shared-controlplane.yaml \
-    -p @patches/talos03.yaml \
-    -o talos03.yaml
+    --patch @patches/shared.yaml \
+    --patch @patches/shared-controlplane.yaml \
+    --patch @patches/talos03.yaml \
+    --output talos03.yaml
 talosctl machineconfig patch worker.yaml \
-    -p @patches/shared.yaml \
-    -p @patches/shared-worker.yaml \
-    -p @patches/talos04.yaml \
-    -o talos04.yaml
+    --patch @patches/shared.yaml \
+    --patch @patches/shared-worker.yaml \
+    --patch @patches/talos04.yaml \
+    --output talos04.yaml
 talosctl machineconfig patch worker.yaml \
-    -p @patches/shared.yaml \
-    -p @patches/shared-worker.yaml \
-    -p @patches/talos05.yaml \
-    -o talos05.yaml
+    --patch @patches/shared.yaml \
+    --patch @patches/shared-worker.yaml \
+    --patch @patches/talos05.yaml \
+    --output talos05.yaml
 talosctl machineconfig patch worker.yaml \
-    -p @patches/shared.yaml \
-    -p @patches/shared-worker.yaml \
-    -p @patches/talos06.yaml \
-    -o talos06.yaml
+    --patch @patches/shared.yaml \
+    --patch @patches/shared-worker.yaml \
+    --patch @patches/talos06.yaml \
+    --output talos06.yaml
 talosctl machineconfig patch worker.yaml \
-    -p @patches/shared.yaml \
-    -p @patches/shared-worker.yaml \
-    -p @patches/shared-worker-nvidia.yaml \
-    -p @patches/talos07.yaml \
-    -o talos07.yaml
+    --patch @patches/shared.yaml \
+    --patch @patches/shared-worker.yaml \
+    --patch @patches/shared-worker-nvidia.yaml \
+    --patch @patches/talos07.yaml \
+    --output talos07.yaml
 talosctl machineconfig patch worker.yaml \
-    -p @patches/shared.yaml \
-    -p @patches/shared-worker.yaml \
-    -p @patches/shared-worker-nvidia.yaml \
-    -p @patches/talos08.yaml \
-    -o talos08.yaml
+    --patch @patches/shared.yaml \
+    --patch @patches/shared-worker.yaml \
+    --patch @patches/shared-worker-nvidia.yaml \
+    --patch @patches/talos08.yaml \
+    --output talos08.yaml
 ```
 
 ## Step 4: Deploy the Control Plane
@@ -119,10 +119,10 @@ Since the node lacks a certificate during initial deployment, use the `--insecur
 
 ```sh
 talosctl apply-config \
-    -n talos01 \
+    --nodes talos01 \
     --file talos01.yaml \
     --insecure \
-    --endpoint 10.69.20.11
+    --endpoints 10.69.20.11
 ```
 
 > [!NOTE]
@@ -133,7 +133,9 @@ talosctl apply-config \
 Bootstrap the cluster using one of the nodes:
 
 ```sh
-talosctl bootstrap -n talos01 -e 10.69.20.11
+talosctl bootstrap \
+    --nodes talos01 \
+    --endpoints 10.69.20.11
 ```
 
 ## Step 6: Configure the Talos API Endpoint
