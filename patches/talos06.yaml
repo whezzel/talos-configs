@@ -11,11 +11,6 @@ provisioning:
   diskSelector:
     match: disk.wwid == "naa.5001b448b2aa721d"
   minSize: 1GB
-encryption:
-    provider: luks2
-    keys:
-        - slot: 0
-          tpm: {}
 ---
 apiVersion: v1alpha1
 kind: UserVolumeConfig
@@ -24,8 +19,3 @@ provisioning:
   diskSelector:
     match: disk.wwid == "nvme.1987-3438373930343539353033323036-53616272656e742053422d524f434b45542d4e564d65342d315442-00000001"
   minSize: 1GB
-encryption:
-    provider: luks2
-    keys:
-        - slot: 0
-          tpm: {}
