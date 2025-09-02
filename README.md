@@ -46,14 +46,6 @@ Create configuration files for the cluster:
 talosctl gen config prod \
     --with-secrets secrets.yaml \
     https://talos-api.whezzel.com:6443 \
-    --nodes talos01.whezzel.com \
-    --nodes talos02.whezzel.com \
-    --nodes talos03.whezzel.com \
-    --nodes talos04.whezzel.com \
-    --nodes talos05.whezzel.com \
-    --nodes talos06.whezzel.com \
-    --nodes talos07.whezzel.com \
-    --nodes talos08.whezzel.com \
     --force --output ~/repos/talos
 ```
 
@@ -212,3 +204,8 @@ helm upgrade --install cilium cilium \
 ## Post-Deployment
 
 After deploying Cilium, your cluster is ready for workloads. For load balancer services via BGP, refer to the Cilium documentation: <https://docs.cilium.io/en/stable/installation/k8s-install-helm/>.
+
+## Reset Node
+```bash
+talosctl -n <node> reset --system-labels-to-wipe EPHEMERAL,STATE --reboot --graceful=false
+```
