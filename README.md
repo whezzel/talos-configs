@@ -1,6 +1,6 @@
 # Talos Linux Installation
 
-This guide walks you through installing and configuring Talos Linux, including generating secrets, creating configuration files, deploying the control plane, bootstrapping the cluster, exporting kubeconfig, and deploying the Cilium CNI.
+This guide walks you through installing and configuring Talos Linux, including generating secrets, creating configuration files, deploying the control plane, bootstrapping the cluster, exporting kubeconfig, deploying the Cilium CNI, and upgrading the cluster.
 
 ## Prerequisites
 
@@ -132,9 +132,7 @@ talosctl bootstrap \
 
 ## Step 6: Configure the Talos API Endpoint
 
-Now that the cluster has been bootstrapped, we can set the endpoint to the talos-api VIP.
-
-Set the Talos API endpoint:
+Now that the cluster has been bootstrapped, set the endpoint to the Talos API VIP:
 
 ```sh
 talosctl config endpoint talos-api.whezzel.com
@@ -206,6 +204,130 @@ helm upgrade --install cilium cilium \
 After deploying Cilium, your cluster is ready for workloads. For load balancer services via BGP, refer to the Cilium documentation: <https://docs.cilium.io/en/stable/installation/k8s-install-helm/>.
 
 ## Reset Node
-```bash
+
+To reset a node:
+
+```sh
 talosctl -n <node> reset --system-labels-to-wipe EPHEMERAL,STATE --reboot --graceful=false
 ```
+
+## Upgrading Talos Linux
+
+To upgrade Talos Linux, follow these steps to ensure a smooth and safe process. Perform upgrades one node at a time to maintain cluster availability.
+
+### Step 1: Verify Image IDs
+
+Check the image IDs for your nodes to ensure they match the desired version and configuration.
+
+For ARM-based control plane nodes (talos01, talos02, talos03):
+
+```sh
+curl -s -X POST --data-binary @customization/arm.yaml https://factory.talos.dev/schematics | jq -r '.id'
+```
+
+For AMD64-based worker nodes (talos04, talos05, talos06):
+
+```sh
+curl -s -X POST --data-binary @customization/longhorn.yaml https://factory.talos.dev/schematics | jq -r '.id'
+```
+
+For AMD64-based worker nodes with Nvidia GPU and Coral TPU (talos07, talos08):
+
+```sh
+curl -s -X POST --data-binary @customization/longhorn-coral-nvidia.yaml https://factory.talos.dev/schematics | jq -r '.id'
+```
+
+> [!NOTE]
+> Ensure the `customization/*.yaml` files exist and contain the correct system extensions for your nodes. Update them if necessary to match the target Talos version.
+
+### Step 2: Update Patch Files
+
+Review and update the patch files (`./patches/shared-controlplane.yaml`, `./patches/shared-worker.yaml`, `./patches/shared-worker-nvidia.yaml`) to include the correct image IDs and any other required changes for the new Talos version.
+
+### Step 3: Regenerate Configuration Files
+
+Regenerate the configuration files for the cluster:
+
+```sh
+talosctl gen config prod \
+    --with-secrets secrets.yaml \
+    https://talos-api.whezzel.com:6443 \
+    --force --output ~/repos/talos
+```
+
+Edit the generated `controlplane.yaml` and `worker.yaml` files to comment out the `install` section, as custom installation details are defined in the patch files:
+
+```diff
+--- controlplane.yaml
++++ controlplane.yaml
+@@ -187,10 +187,10 @@
+     #     enabled: true # Enable the KubeSpan feature.
+ 
+     # Used to provide instructions for installations.
+-    install:
+-        disk: /dev/sda # The disk used for installations.
+-        image: ghcr.io/siderolabs/installer:<version> # Allows for supplying the image used to perform the installation.
+-        wipe: false # Indicates if the installation disk should be wiped at installation time.
++#    install:
++#        disk: /dev/sda # The disk used for installations.
++#        image: ghcr.io/siderolabs/installer:<version> # Allows for supplying the image used to perform the installation.
++#        wipe: false # Indicates if the installation disk should be wiped at installation time.
+```
+
+```diff
+--- worker.yaml
++++ worker.yaml
+@@ -187,10 +187,10 @@
+     #     enabled: true # Enable the KubeSpan feature.
+ 
+     # Used to provide instructions for installations.
+-    install:
+-        disk: /dev/sda # The disk used for installations.
+-        image: ghcr.io/siderolabs/installer:<version> # Allows for supplying the image used to perform the installation.
+-        wipe: false # Indicates if the installation disk should be wiped at installation time.
++#    install:
++#        disk: /dev/sda # The disk used for installations.
++#        image: ghcr.io/siderolabs/installer:<version> # Allows for supplying the image used to perform the installation.
++#        wipe: false # Indicates if the installation disk should be wiped at installation time.
+```
+
+### Step 4: Regenerate Machine Configuration Files
+
+Reapply patches to generate updated machine configuration files for each node, as described in [Step 3: Generate Machine Configuration Files](#step-3-generate-machine-configuration-files).
+
+### Step 5: Upgrade Nodes
+
+Upgrade each node one at a time, replacing `{image_factory_id}` with the appropriate image ID from Step 1 and `{version}` with the target Talos version (e.g., `1.11.1`):
+
+```sh
+talosctl upgrade -n talos01 --image factory.talos.dev/metal-installer/{image_factory_id}:v{version}
+talosctl upgrade -n talos02 --image factory.talos.dev/metal-installer/{image_factory_id}:v{version}
+talosctl upgrade -n talos03 --image factory.talos.dev/metal-installer/{image_factory_id}:v{version}
+talosctl upgrade -n talos04 --image factory.talos.dev/metal-installer-secureboot/{image_factory_id}:v{version}
+talosctl upgrade -n talos05 --image factory.talos.dev/metal-installer-secureboot/{image_factory_id}:v{version}
+talosctl upgrade -n talos06 --image factory.talos.dev/metal-installer-secureboot/{image_factory_id}:v{version}
+talosctl upgrade -n talos07 --image factory.talos.dev/metal-installer-secureboot/{image_factory_id}:v{version}
+talosctl upgrade -n talos08 --image factory.talos.dev/metal-installer-secureboot/{image_factory_id}:v{version}
+```
+
+> [!NOTE]
+> Monitor each node's upgrade process using `talosctl get members` to ensure the node rejoins the cluster successfully before proceeding to the next node.
+
+### Step 6: Upgrade Kubernetes
+
+Perform a dry run to preview the Kubernetes upgrade changes:
+
+```sh
+talosctl upgrade-k8s --nodes talos01 --dry-run
+```
+
+If the dry run output is satisfactory, proceed with the Kubernetes upgrade:
+
+```sh
+talosctl upgrade-k8s --nodes talos01
+```
+
+> [!NOTE]
+> The Kubernetes upgrade should be performed on a control plane node (e.g., talos01). Ensure all nodes are upgraded before running the Kubernetes upgrade.
+
+</xaiArtifact>
