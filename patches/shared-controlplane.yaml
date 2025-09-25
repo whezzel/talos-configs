@@ -13,10 +13,10 @@ machine:
       - -net.ifnames
       - net.ifnames=0
     # Run the following command to generate the image id
-    # curl -s -X POST --data-binary @customization/arm.yaml https://factory.talos.dev/schematics | cut -d\" -f4
-    # download image: wget -c https://factory.talos.dev/image/$(curl -s -X POST --data-binary @customization/arm.yaml https://factory.talos.dev/schematics | cut -d\" -f4)/v1.11.1/metal-arm64.raw.xz -O metal-arm64-raw-1.10.6.raw.xz
+    # curl -s -X POST --data-binary @customization/arm.yaml https://factory.talos.dev/schematics | jq -r '.id'
+    # download image: wget -c https://factory.talos.dev/image/$(curl -s -X POST --data-binary @customization/arm.yaml https://factory.talos.dev/schematics | jq -r '.id')/v1.11.1/metal-arm64.raw.xz -O metal-arm64-raw-1.10.6.raw.xz
     # extract with xz and flash with rpi-imager
-    image: factory.talos.dev/metal-installer/6239a2f1b0b4a18d7bd33df17e028e8f32cbe1a8e296179d9985dcdc1df2ea1e:v1.11.1
+    image: factory.talos.dev/metal-installer/6239a2f1b0b4a18d7bd33df17e028e8f32cbe1a8e296179d9985dcdc1df2ea1e:v1.11.2
     wipe: false
   kernel:
     modules:
