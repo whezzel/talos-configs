@@ -1,8 +1,11 @@
 machine:
   certSANs:
     - talos05.whezzel.com
-  network:
-    hostname: talos05
+---
+apiVersion: v1alpha1
+kind: HostnameConfig
+auto: off
+hostname: talos05
 ---
 apiVersion: v1alpha1
 kind: UserVolumeConfig

@@ -1,9 +1,13 @@
 machine:
   certSANs:
     - talos01.whezzel.com
-  network:
-    hostname: talos01
 cluster:
   apiServer:
     certSANs:
       - talos01.whezzel.com
+---
+apiVersion: v1alpha1
+kind: HostnameConfig
+auto: off
+hostname: talos01
+
