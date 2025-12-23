@@ -203,15 +203,7 @@ helm upgrade --install cilium cilium \
 
 After deploying Cilium, your cluster is ready for workloads. For load balancer services via BGP, refer to the Cilium documentation: <https://docs.cilium.io/en/stable/installation/k8s-install-helm/>.
 
-## Reset Node
-
-To reset a node:
-
-```sh
-talosctl -n <node> reset --system-labels-to-wipe EPHEMERAL,STATE --reboot --graceful=false
-```
-
-## Upgrading Talos Linux
+# Upgrading Talos Linux
 
 To upgrade Talos Linux, follow these steps to ensure a smooth and safe process. Perform upgrades one node at a time to maintain cluster availability.
 
@@ -330,4 +322,38 @@ talosctl upgrade-k8s --nodes talos01
 > [!NOTE]
 > The Kubernetes upgrade should be performed on a control plane node (e.g., talos01). Ensure all nodes are upgraded before running the Kubernetes upgrade.
 
-</xaiArtifact>
+# Troubleshooting
+
+## Reset Node
+
+To reset a node:
+
+```sh
+talosctl --nodes <node> reset --system-labels-to-wipe EPHEMERAL,STATE --reboot --graceful=false
+```
+
+## Prune Images
+
+### Step 1: Create debug container
+
+```sh
+kubectl debug -n kube-system -it --image alpine --profile=sysadmin node/<node>
+```
+
+### Step 2: Install tools
+
+```sh
+apk add cri-tools
+```
+
+### Step 3: Set runtime endpoint
+
+```sh
+export CONTAINER_RUNTIME_ENDPOINT=unix:///host/run/containerd/containerd.sock
+```
+
+### Step 4: Prune Images
+
+```sh
+crictl rmi --prune
+```
