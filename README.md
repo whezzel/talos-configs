@@ -105,7 +105,7 @@ talosctl machineconfig patch worker.yaml \
     --output talos08.yaml
 ```
 
-## Step 4: Deploy the Control Plane
+## Step 4: Deploy the First Control Plane Node
 
 Since the node lacks a certificate during initial deployment, use the `--insecure` flag to bypass authentication:
 
@@ -122,7 +122,7 @@ talosctl apply-config \
 
 ## Step 5: Bootstrap the Cluster
 
-Bootstrap the cluster using one of the nodes:
+Bootstrap the cluster using the first control plane node:
 
 ```sh
 talosctl bootstrap \
