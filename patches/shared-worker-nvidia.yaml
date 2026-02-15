@@ -2,7 +2,7 @@ machine:
   install:
     # Run the following command to generate the image id
     # curl -s -X POST --data-binary @customization/longhorn-coral-nvidia.yaml https://factory.talos.dev/schematics | jq -r '.id'
-    image: factory.talos.dev/metal-installer-secureboot/2ccb2b7456df7435281a6691b2eb0da3ce16dccad61307b364d5d514d2b34a6a:v1.12.0
+    image: factory.talos.dev/metal-installer-secureboot/2ccb2b7456df7435281a6691b2eb0da3ce16dccad61307b364d5d514d2b34a6a:v1.12.4
   sysctls:
     net.core.bpf_jit_harden: "1"
   udev:
