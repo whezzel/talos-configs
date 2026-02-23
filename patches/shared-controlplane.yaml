@@ -1,12 +1,6 @@
 machine:
   certSANs:
     - talos-api.whezzel.com
-  network:
-    interfaces:
-      - interface: eth0
-        dhcp: true
-        vip:
-          ip: 10.69.20.10
   install:
     disk: /dev/nvme0n1
     extraKernelArgs:
@@ -39,6 +33,10 @@ cluster:
     - https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
   allowSchedulingOnControlPlanes: false
 ---
+apiVersion: v1alpha1
+kind: Layer2VIPConfig
+name: 10.69.20.10
+link: eth0
 ---
 apiVersion: v1alpha1
 kind: DHCPv4Config
