@@ -11,5 +11,4 @@ customization:
       - siderolabs/iscsi-tools
       - siderolabs/nonfree-kmod-nvidia-production
       - siderolabs/nvidia-container-toolkit-production
-      - siderolabs/usb-modem-drivers
       - siderolabs/util-linux-tools

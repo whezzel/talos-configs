@@ -1,9 +1,6 @@
 # Run the following command to generate the image id
 # curl -s -X POST --data-binary @/customization/arm.yaml https://factory.talos.dev/schematics | cut -d\" -f4
 customization:
-  systemExtensions:
-    officialExtensions:
-      - siderolabs/usb-modem-drivers
   extraKernelArgs:
     - -net.ifnames
     - net.ifnames=0

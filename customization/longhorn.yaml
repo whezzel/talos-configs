@@ -8,5 +8,4 @@ customization:
       - siderolabs/i915
       - siderolabs/intel-ucode
       - siderolabs/iscsi-tools
-      - siderolabs/usb-modem-drivers
       - siderolabs/util-linux-tools
