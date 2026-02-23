@@ -1,3 +1,4 @@
+---
 machine:
   kubelet:
     extraMounts:
@@ -23,3 +24,9 @@ machine:
     # curl -s -X POST --data-binary @customization/longhorn.yaml https://factory.talos.dev/schematics | jq -r '.id'
     image: factory.talos.dev/metal-installer-secureboot/313ec518b7718454245e6b38e26a95b5b84c218bb1751d0a5b85a7186a595f0a:v1.12.4
     wipe: true
+---
+apiVersion: v1alpha1
+kind: DHCPv4Config
+name: eth0
+clientIdentifier: mac
+ignoreHostname: true
