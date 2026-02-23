@@ -8,6 +8,16 @@ auto: off
 hostname: talos07
 ---
 apiVersion: v1alpha1
+kind: VLANConfig
+name: eth0.21
+vlanID: 21
+vlanMode: 802.1q
+parent: eth0
+up: true
+addresses:
+  - address: 10.69.21.17/24
+---
+apiVersion: v1alpha1
 kind: UserVolumeConfig
 name: storage
 provisioning:

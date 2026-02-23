@@ -10,3 +10,13 @@ apiVersion: v1alpha1
 kind: HostnameConfig
 auto: off
 hostname: talos03
+---
+apiVersion: v1alpha1
+kind: VLANConfig
+name: eth0.21
+vlanID: 21
+vlanMode: 802.1q
+parent: eth0
+up: true
+addresses:
+  - address: 10.69.21.13/24
