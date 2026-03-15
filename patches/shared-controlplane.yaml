@@ -10,7 +10,7 @@ machine:
     # curl -s -X POST --data-binary @customization/arm.yaml https://factory.talos.dev/schematics | jq -r '.id'
     # download image: wget -c https://factory.talos.dev/image/$(curl -s -X POST --data-binary @customization/arm.yaml https://factory.talos.dev/schematics | jq -r '.id')/v1.11.1/metal-arm64.raw.xz -O metal-arm64-raw-1.10.6.raw.xz
     # extract with xz and flash with rpi-imager
-    image: factory.talos.dev/metal-installer/6700767ba5f9fb4e77a08c64b0706c6bd6dc8d2579cda35df7c11e3b04eb5716:v1.12.4
+    image: factory.talos.dev/metal-installer/6700767ba5f9fb4e77a08c64b0706c6bd6dc8d2579cda35df7c11e3b04eb5716:v1.12.5
     wipe: false
   kernel:
     modules:
