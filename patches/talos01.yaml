@@ -1,6 +1,9 @@
 machine:
   certSANs:
     - talos01.whezzel.com
+  install:
+    diskSelector:
+      wwid: eui.002538591191e4e8
 cluster:
   apiServer:
     certSANs:

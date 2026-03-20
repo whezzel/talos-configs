@@ -1,6 +1,9 @@
 machine:
   certSANs:
     - talos06.whezzel.com
+  install:
+    diskSelector:
+      wwid: naa.5001b448be234d91
 ---
 apiVersion: v1alpha1
 kind: HostnameConfig
@@ -16,14 +19,6 @@ parent: eth0
 up: true
 addresses:
   - address: 10.69.21.16/24
----
-apiVersion: v1alpha1
-kind: UserVolumeConfig
-name: storage
-provisioning:
-  diskSelector:
-    match: disk.wwid == "naa.5001b448b2aa721d"
-  minSize: 1GB
 ---
 apiVersion: v1alpha1
 kind: UserVolumeConfig
