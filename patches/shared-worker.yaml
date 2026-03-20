@@ -22,7 +22,7 @@ machine:
       model: Flash Drive FIT
     # Run the following command to generate the image id
     # curl -s -X POST --data-binary @customization/longhorn.yaml https://factory.talos.dev/schematics | jq -r '.id'
-    image: factory.talos.dev/metal-installer-secureboot/313ec518b7718454245e6b38e26a95b5b84c218bb1751d0a5b85a7186a595f0a:v1.12.5
+    image: factory.talos.dev/metal-installer-secureboot/313ec518b7718454245e6b38e26a95b5b84c218bb1751d0a5b85a7186a595f0a:v1.12.6
     wipe: true
 ---
 apiVersion: v1alpha1
