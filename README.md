@@ -337,16 +337,18 @@ talosctl --nodes <node> reset --system-labels-to-wipe EPHEMERAL,STATE --reboot -
 ### Step 1: Create debug container
 
 ```sh
-kubectl debug -n kube-system -it --image alpine --profile=sysadmin node/<node>
+kubectl debug -n kube-system -it --image ghcr.io/whezzel/alpine-tools --profile=sysadmin node/<node>
 ```
 
 ### Step 2: Install tools
+#### Not necessary if using my custom "alpine-tools" images since this package is already installed.
 
 ```sh
 apk add cri-tools
 ```
 
 ### Step 3: Set runtime endpoint
+#### Not necessary if using my custom "alpine-tools" images since this env is already set.
 
 ```sh
 export CONTAINER_RUNTIME_ENDPOINT=unix:///host/run/containerd/containerd.sock
