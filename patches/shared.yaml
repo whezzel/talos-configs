@@ -48,27 +48,27 @@ machine:
     mirrors:
       docker.io:
         endpoints:
-          - https://harbor.whezzel.com/v2/proxy-docker.io
+          - https://harbor.whezzel.com/v2/docker.io
         overridePath: true
       ghcr.io:
         endpoints:
-          - https://harbor.whezzel.com/v2/proxy-ghcr.io
+          - https://harbor.whezzel.com/v2/ghcr.io
         overridePath: true
       gcr.io:
         endpoints:
-          - https://harbor.whezzel.com/v2/proxy-gcr.io
+          - https://harbor.whezzel.com/v2/gcr.io
         overridePath: true
       lscr.io:
         endpoints:
-          - https://harbor.whezzel.com/v2/proxy-lscr.io
+          - https://harbor.whezzel.com/v2/lscr.io
         overridePath: true
       quay.io:
         endpoints:
-          - https://harbor.whezzel.com/v2/proxy-quay.io
+          - https://harbor.whezzel.com/v2/quay.io
         overridePath: true
       registry.k8s.io:
         endpoints:
-          - https://harbor.whezzel.com/v2/proxy-registry.k8s.io
+          - https://harbor.whezzel.com/v2/registry.k8s.io
         overridePath: true
 cluster:
   clusterName: prod
