@@ -4,6 +4,10 @@ machine:
   install:
     diskSelector:
       wwid: eui.e8238fa6bf530001001b448b47d835a5
+  nodeLabels:
+    nvidia-present: "true"
+    coral-present: "true"
+    rtlsdr-present: "false"
 ---
 apiVersion: v1alpha1
 kind: HostnameConfig

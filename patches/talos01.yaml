@@ -4,6 +4,10 @@ machine:
   install:
     diskSelector:
       wwid: eui.002538591191e4e8
+  nodeLabels:
+    nvidia-present: "false"
+    coral-present: "false"
+    rtlsdr-present: "false"
 cluster:
   apiServer:
     certSANs:
