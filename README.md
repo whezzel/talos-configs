@@ -35,7 +35,7 @@ Boot each node from this ISO to start Talos in memory mode before applying confi
 Generate secrets for Talos Linux:
 
 ```sh
-talosctl gen secrets --output secrets.yaml
+talosctl gen secrets --output-file secrets.yaml
 ```
 
 ## Step 2: Generate Configuration Files
