@@ -46,7 +46,7 @@ Create configuration files for the cluster:
 talosctl gen config prod \
     --with-secrets secrets.yaml \
     https://talos-api.whezzel.com:6443 \
-    --force --output ~/repos/talos
+    --force --output ~/repos/talos-configs
 ```
 
 Move the `talosconfig` file to the correct location:
@@ -244,7 +244,7 @@ Regenerate the configuration files for the cluster:
 talosctl gen config prod \
     --with-secrets secrets.yaml \
     https://talos-api.whezzel.com:6443 \
-    --force --output ~/repos/talos
+    --force --output ~/repos/talos-configs
 ```
 
 Edit the generated `controlplane.yaml` and `worker.yaml` files to comment out the `install` section, as custom installation details are defined in the patch files:
