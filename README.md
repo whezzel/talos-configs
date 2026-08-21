@@ -12,7 +12,7 @@ This guide walks you through installing and configuring Talos Linux, including g
 
 ## Download and Boot the SecureBoot ISO
 
-For the initial installation, download the SecureBoot ISO from the Talos image factory. The basic configuration (without any system extensions or other config options) uses the image ID `6905bc709e5947573a4ec2d11723b58882936d3d0e15c708f7d78f0c689684a5`. Since this is just the boot ISO, it doesn't require special configuration.
+For the initial installation, download the SecureBoot ISO from the Talos image factory. The basic secureboot+uefi-only configuration (without any system extensions) uses the image ID `80469ef645425bc7cb27830a7143999e422fd7b206c9d9726c47de47800e956d`. Since this is just the boot ISO, it doesn't require special configuration.
 
 > [!NOTE]
 > If you need additional system extensions to support specific hardware, generate a new image ID at <https://factory.talos.dev/>.
@@ -21,7 +21,7 @@ Download the ISO:
 
 ```sh
 VERSION=<VERSION>
-IMAGE_ID=6905bc709e5947573a4ec2d11723b58882936d3d0e15c708f7d78f0c689684a5
+IMAGE_ID=80469ef645425bc7cb27830a7143999e422fd7b206c9d9726c47de47800e956d
 wget -c "https://factory.talos.dev/image/${IMAGE_ID}/v${VERSION}/metal-amd64-secureboot.iso" -O "metal-amd64-secureboot-v${VERSION}.iso"
 ```
 
