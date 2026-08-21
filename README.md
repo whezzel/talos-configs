@@ -61,48 +61,14 @@ cp talosconfig ~/.talos/config
 Patch machine configurations for each node:
 
 ```sh
-talosctl machineconfig patch controlplane.yaml \
-    --patch @patches/shared.yaml \
-    --patch @patches/shared-controlplane.yaml \
-    --patch @patches/talos01.yaml \
-    --output talos01.yaml
-talosctl machineconfig patch controlplane.yaml \
-    --patch @patches/shared.yaml \
-    --patch @patches/shared-controlplane.yaml \
-    --patch @patches/talos02.yaml \
-    --output talos02.yaml
-talosctl machineconfig patch controlplane.yaml \
-    --patch @patches/shared.yaml \
-    --patch @patches/shared-controlplane.yaml \
-    --patch @patches/talos03.yaml \
-    --output talos03.yaml
-talosctl machineconfig patch worker.yaml \
-    --patch @patches/shared.yaml \
-    --patch @patches/shared-worker.yaml \
-    --patch @patches/talos04.yaml \
-    --output talos04.yaml
-talosctl machineconfig patch worker.yaml \
-    --patch @patches/shared.yaml \
-    --patch @patches/shared-worker.yaml \
-    --patch @patches/talos05.yaml \
-    --output talos05.yaml
-talosctl machineconfig patch worker.yaml \
-    --patch @patches/shared.yaml \
-    --patch @patches/shared-worker.yaml \
-    --patch @patches/talos06.yaml \
-    --output talos06.yaml
-talosctl machineconfig patch worker.yaml \
-    --patch @patches/shared.yaml \
-    --patch @patches/shared-worker.yaml \
-    --patch @patches/shared-worker-nvidia.yaml \
-    --patch @patches/talos07.yaml \
-    --output talos07.yaml
-talosctl machineconfig patch worker.yaml \
-    --patch @patches/shared.yaml \
-    --patch @patches/shared-worker.yaml \
-    --patch @patches/shared-worker-nvidia.yaml \
-    --patch @patches/talos08.yaml \
-    --output talos08.yaml
+t machineconfig patch controlplane.yaml --patch @patches/shared.yaml --patch @patches/shared-controlplane.yaml --patch @patches/talos01.yaml --output talos01.yaml
+t machineconfig patch controlplane.yaml --patch @patches/shared.yaml --patch @patches/shared-controlplane.yaml --patch @patches/talos02.yaml --output talos02.yaml
+t machineconfig patch controlplane.yaml --patch @patches/shared.yaml --patch @patches/shared-controlplane.yaml --patch @patches/talos03.yaml --output talos03.yaml
+t machineconfig patch worker.yaml --patch @patches/shared.yaml --patch @patches/shared-worker.yaml --patch @patches/talos04.yaml --output talos04.yaml
+t machineconfig patch worker.yaml --patch @patches/shared.yaml --patch @patches/shared-worker.yaml --patch @patches/talos05.yaml --output talos05.yaml
+t machineconfig patch worker.yaml --patch @patches/shared.yaml --patch @patches/shared-worker.yaml --patch @patches/talos06.yaml --output talos06.yaml
+t machineconfig patch worker.yaml --patch @patches/shared.yaml --patch @patches/shared-worker.yaml --patch @patches/shared-worker-nvidia.yaml --patch @patches/talos07.yaml --output talos07.yaml
+t machineconfig patch worker.yaml --patch @patches/shared.yaml --patch @patches/shared-worker.yaml --patch @patches/shared-worker-nvidia.yaml --patch @patches/talos08.yaml --output talos08.yaml
 ```
 
 ## Step 4: Deploy the First Control Plane Node
