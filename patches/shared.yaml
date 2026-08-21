@@ -76,3 +76,14 @@ machine:
           overridePath: true
 cluster:
   clusterName: prod
+---
+apiVersion: v1alpha1
+kind: DHCPv4Config
+name: eth0
+clientIdentifier: mac
+ignoreHostname: true
+---
+apiVersion: v1alpha1
+kind: DHCPv6Config
+name: eth0
+clientIdentifier: mac
