@@ -47,28 +47,32 @@ machine:
   registries:
     mirrors:
       docker.io:
-        endpoints:
-          - https://harbor.whezzel.com/v2/docker.io
-        overridePath: true
-      ghcr.io:
-        endpoints:
-          - https://harbor.whezzel.com/v2/ghcr.io
-        overridePath: true
+          endpoints:
+              - https://harbor.whezzel.com/v2/docker.io
+          overridePath: true
+      factory.talos.dev:
+          endpoints:
+              - https://harbor.whezzel.com/v2/factory.talos.dev
+          overridePath: true
       gcr.io:
-        endpoints:
-          - https://harbor.whezzel.com/v2/gcr.io
-        overridePath: true
+          endpoints:
+              - https://harbor.whezzel.com/v2/gcr.io
+          overridePath: true
+      ghcr.io:
+          endpoints:
+              - https://harbor.whezzel.com/v2/ghcr.io
+          overridePath: true
       lscr.io:
-        endpoints:
-          - https://harbor.whezzel.com/v2/lscr.io
-        overridePath: true
+          endpoints:
+              - https://harbor.whezzel.com/v2/lscr.io
+          overridePath: true
       quay.io:
-        endpoints:
-          - https://harbor.whezzel.com/v2/quay.io
-        overridePath: true
+          endpoints:
+              - https://harbor.whezzel.com/v2/quay.io
+          overridePath: true
       registry.k8s.io:
-        endpoints:
-          - https://harbor.whezzel.com/v2/registry.k8s.io
-        overridePath: true
+          endpoints:
+              - https://harbor.whezzel.com/v2/registry.k8s.io
+          overridePath: true
 cluster:
   clusterName: prod
