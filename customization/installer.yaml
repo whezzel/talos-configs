@@ -1,0 +1,8 @@
+# curl -s -X POST --data-binary @customization/installer.yaml https://factory.talos.dev/schematics | cut -d\" -f4
+customization:
+  extraKernelArgs:
+    - net.ifnames=0
+  systemExtensions:
+    officialExtensions:
+      - siderolabs/i915
+      - siderolabs/intel-ucode
