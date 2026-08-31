@@ -5,6 +5,9 @@ machine:
     nodeIP:
       validSubnets:
         - 10.69.20.0/24
+        - fd69:0:0:20::/64
+  sysctls:
+    net.ipv6.conf.eth0.accept_ra: "2"
   install:
     wipe: true
   network:
@@ -16,7 +19,15 @@ machine:
         aliases:
           - talos01
           - talos01.whezzel.com
+      - ip: fd69:0:0:20::11
+        aliases:
+          - talos01
+          - talos01.whezzel.com
       - ip: 10.69.20.12
+        aliases:
+          - talos02
+          - talos02.whezzel.com
+      - ip: fd69:0:0:20::12
         aliases:
           - talos02
           - talos02.whezzel.com
@@ -24,7 +35,15 @@ machine:
         aliases:
           - talos03
           - talos03.whezzel.com
+      - ip: fd69:0:0:20::13
+        aliases:
+          - talos03
+          - talos03.whezzel.com
       - ip: 10.69.20.14
+        aliases:
+          - talos04
+          - talos04.whezzel.com
+      - ip: fd69:0:0:20::14
         aliases:
           - talos04
           - talos04.whezzel.com
@@ -32,7 +51,15 @@ machine:
         aliases:
           - talos05
           - talos05.whezzel.com
+      - ip: fd69:0:0:20::15
+        aliases:
+          - talos05
+          - talos05.whezzel.com
       - ip: 10.69.20.16
+        aliases:
+          - talos06
+          - talos06.whezzel.com
+      - ip: fd69:0:0:20::16
         aliases:
           - talos06
           - talos06.whezzel.com
@@ -40,7 +67,15 @@ machine:
         aliases:
           - talos07
           - talos07.whezzel.com
+      - ip: fd69:0:0:20::17
+        aliases:
+          - talos07
+          - talos07.whezzel.com
       - ip: 10.69.20.18
+        aliases:
+          - talos08
+          - talos08.whezzel.com
+      - ip: fd69:0:0:20::18
         aliases:
           - talos08
           - talos08.whezzel.com
@@ -76,6 +111,13 @@ machine:
           overridePath: true
 cluster:
   clusterName: prod
+  network:
+    podSubnets:
+      - 10.244.0.0/16
+      - fd69:0:244::/56
+    serviceSubnets:
+      - 10.96.0.0/12
+      - fd69:0:96::/112
 ---
 apiVersion: v1alpha1
 kind: DHCPv4Config
@@ -87,3 +129,49 @@ apiVersion: v1alpha1
 kind: DHCPv6Config
 name: eth0
 clientIdentifier: mac
+---
+apiVersion: v1alpha1
+kind: RoutingRuleConfig
+name: "2000"
+src: 10.69.21.0/24
+dst: 10.244.0.0/16
+table: main
+action: unicast
+---
+apiVersion: v1alpha1
+kind: RoutingRuleConfig
+name: "2001"
+src: 10.69.21.0/24
+dst: 10.69.0.0/16
+table: main
+action: unicast
+---
+apiVersion: v1alpha1
+kind: RoutingRuleConfig
+name: "2002"
+src: fd69:0:0:21::/64
+dst: fd69:0:244::/56
+table: main
+action: unicast
+---
+apiVersion: v1alpha1
+kind: RoutingRuleConfig
+name: "2003"
+src: fd69:0:0:21::/64
+dst: fd69::/48
+table: main
+action: unicast
+---
+apiVersion: v1alpha1
+kind: RoutingRuleConfig
+name: "2100"
+src: 10.69.21.0/24
+table: "21"
+action: unicast
+---
+apiVersion: v1alpha1
+kind: RoutingRuleConfig
+name: "2101"
+src: fd69:0:0:21::/64
+table: "21"
+action: unicast

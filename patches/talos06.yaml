@@ -23,6 +23,12 @@ parent: eth0
 up: true
 addresses:
   - address: 10.69.21.16/24
+  - address: fd69:0:0:21::16/64
+routes:
+  - gateway: 10.69.21.1
+    table: "21"
+  - gateway: fd69:0:0:21::1
+    table: "21"
 ---
 apiVersion: v1alpha1
 kind: UserVolumeConfig
