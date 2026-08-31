@@ -258,14 +258,14 @@ Reapply patches to generate updated machine configuration files for each node, a
 Upgrade each node one at a time, replacing `{image_factory_id}` with the appropriate image ID from Step 1 and `{version}` with the target Talos version (e.g., `1.11.1`):
 
 ```sh
-talosctl upgrade -n talos01 --image factory.talos.dev/metal-installer/{image_factory_id}:v{version}
-talosctl upgrade -n talos02 --image factory.talos.dev/metal-installer/{image_factory_id}:v{version}
-talosctl upgrade -n talos03 --image factory.talos.dev/metal-installer/{image_factory_id}:v{version}
-talosctl upgrade -n talos04 --image factory.talos.dev/metal-installer-secureboot/{image_factory_id}:v{version}
-talosctl upgrade -n talos05 --image factory.talos.dev/metal-installer-secureboot/{image_factory_id}:v{version}
-talosctl upgrade -n talos06 --image factory.talos.dev/metal-installer-secureboot/{image_factory_id}:v{version}
-talosctl upgrade -n talos07 --image factory.talos.dev/metal-installer-secureboot/{image_factory_id}:v{version}
-talosctl upgrade -n talos08 --image factory.talos.dev/metal-installer-secureboot/{image_factory_id}:v{version}
+t upgrade --drain=false -n talos01 -i factory.talos.dev/metal-installer/$(curl -s -X POST --data-binary @customization/arm.yaml https://factory.talos.dev/schematics | jq -r '.id'):v{version}
+t upgrade --drain=false -n talos02 -i factory.talos.dev/metal-installer/$(curl -s -X POST --data-binary @customization/arm.yaml https://factory.talos.dev/schematics | jq -r '.id'):v{version}
+t upgrade --drain=false -n talos03 -i factory.talos.dev/metal-installer/$(curl -s -X POST --data-binary @customization/arm.yaml https://factory.talos.dev/schematics | jq -r '.id'):v{version}
+t upgrade --drain=false -n talos04 -i factory.talos.dev/metal-installer-secureboot/$(curl -s -X POST --data-binary @customization/longhorn.yaml https://factory.talos.dev/schematics | jq -r '.id'):v{version}
+t upgrade --drain=false -n talos05 -i factory.talos.dev/metal-installer-secureboot/$(curl -s -X POST --data-binary @customization/longhorn.yaml https://factory.talos.dev/schematics | jq -r '.id'):v{version}
+t upgrade --drain=false -n talos06 -i factory.talos.dev/metal-installer-secureboot/$(curl -s -X POST --data-binary @customization/longhorn.yaml https://factory.talos.dev/schematics | jq -r '.id'):v{version}
+t upgrade --drain=false -n talos07 -i factory.talos.dev/metal-installer-secureboot/$(curl -s -X POST --data-binary @customization/longhorn-coral-nvidia.yaml https://factory.talos.dev/schematics | jq -r '.id'):v{version}
+t upgrade --drain=false -n talos08 -i factory.talos.dev/metal-installer-secureboot/$(curl -s -X POST --data-binary @customization/longhorn-coral-nvidia.yaml https://factory.talos.dev/schematics | jq -r '.id'):v{version}
 ```
 
 > [!NOTE]
