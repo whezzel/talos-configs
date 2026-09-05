@@ -1,18 +1,24 @@
 machine:
   certSANs:
     - talos06.whezzel.com
-  install:
-    diskSelector:
-      wwid: naa.5001b448be234d91
-  nodeLabels:
-    nvidia-present: "false"
-    coral-present: "false"
-    rtlsdr-present: "true"
+---
+apiVersion: v1alpha1
+kind: UnattendedInstallConfig
+provisioning:
+  diskSelector:
+    match: disk.wwid == "naa.5001b448be234d91"
 ---
 apiVersion: v1alpha1
 kind: HostnameConfig
 auto: off
 hostname: talos06
+---
+apiVersion: v1alpha1
+kind: KubeNodeConfig
+labels:
+  nvidia-present: "false"
+  coral-present: "false"
+  rtlsdr-present: "true"
 ---
 apiVersion: v1alpha1
 kind: VLANConfig

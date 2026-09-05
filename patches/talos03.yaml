@@ -1,22 +1,31 @@
 machine:
   certSANs:
+    - talos03
     - talos03.whezzel.com
-  install:
-    diskSelector:
-      wwid: eui.001b444a46e72038
-  nodeLabels:
-    nvidia-present: "false"
-    coral-present: "false"
-    rtlsdr-present: "false"
-cluster:
-  apiServer:
-    certSANs:
-      - talos03.whezzel.com
+---
+apiVersion: v1alpha1
+kind: UnattendedInstallConfig
+provisioning:
+  diskSelector:
+    match: disk.wwid == "eui.001b444a46e72038"
 ---
 apiVersion: v1alpha1
 kind: HostnameConfig
 auto: off
 hostname: talos03
+---
+apiVersion: v1alpha1
+kind: KubeNodeConfig
+labels:
+  nvidia-present: "false"
+  coral-present: "false"
+  rtlsdr-present: "false"
+---
+apiVersion: v1alpha1
+kind: KubeAPIServerConfig
+certExtraSANs:
+  - talos03
+  - talos03.whezzel.com
 ---
 apiVersion: v1alpha1
 kind: VLANConfig

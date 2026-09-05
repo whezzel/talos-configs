@@ -1,22 +1,7 @@
 ---
-machine:
-  kubelet:
-    extraMounts:
-      - destination: /var/mnt/longhorn
-        type: bind
-        source: /var/mnt/longhorn
-        options:
-          - bind
-          - rshared
-          - rw
-      - destination: /var/mnt/storage
-        type: bind
-        source: /var/mnt/storage
-        options:
-          - bind
-          - rshared
-          - rw
-  install:
-    # Run the following command to generate the image id
-    # curl -s -X POST --data-binary @customization/longhorn.yaml https://factory.talos.dev/schematics | jq -r '.id'
-    image: factory.talos.dev/metal-installer-secureboot/313ec518b7718454245e6b38e26a95b5b84c218bb1751d0a5b85a7186a595f0a:v1.13.9
+apiVersion: v1alpha1
+kind: UnattendedInstallConfig
+installer:
+  # Run the following command to generate the image id
+  # curl -s -X POST --data-binary @customization/longhorn.yaml https://factory.talos.dev/schematics | jq -r '.id'
+  image: factory.talos.dev/metal-installer-secureboot/313ec518b7718454245e6b38e26a95b5b84c218bb1751d0a5b85a7186a595f0a:v1.14.0

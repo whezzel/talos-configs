@@ -213,42 +213,6 @@ talosctl gen config prod \
     --force --output ~/repos/talos-configs
 ```
 
-Edit the generated `controlplane.yaml` and `worker.yaml` files to comment out the `install` section, as custom installation details are defined in the patch files:
-
-```diff
---- controlplane.yaml
-+++ controlplane.yaml
-@@ -187,10 +187,10 @@
-     #     enabled: true # Enable the KubeSpan feature.
- 
-     # Used to provide instructions for installations.
--    install:
--        disk: /dev/sda # The disk used for installations.
--        image: ghcr.io/siderolabs/installer:<version> # Allows for supplying the image used to perform the installation.
--        wipe: false # Indicates if the installation disk should be wiped at installation time.
-+#    install:
-+#        disk: /dev/sda # The disk used for installations.
-+#        image: ghcr.io/siderolabs/installer:<version> # Allows for supplying the image used to perform the installation.
-+#        wipe: false # Indicates if the installation disk should be wiped at installation time.
-```
-
-```diff
---- worker.yaml
-+++ worker.yaml
-@@ -187,10 +187,10 @@
-     #     enabled: true # Enable the KubeSpan feature.
- 
-     # Used to provide instructions for installations.
--    install:
--        disk: /dev/sda # The disk used for installations.
--        image: ghcr.io/siderolabs/installer:<version> # Allows for supplying the image used to perform the installation.
--        wipe: false # Indicates if the installation disk should be wiped at installation time.
-+#    install:
-+#        disk: /dev/sda # The disk used for installations.
-+#        image: ghcr.io/siderolabs/installer:<version> # Allows for supplying the image used to perform the installation.
-+#        wipe: false # Indicates if the installation disk should be wiped at installation time.
-```
-
 ### Step 4: Regenerate Machine Configuration Files
 
 Reapply patches to generate updated machine configuration files for each node, as described in [Step 3: Generate Machine Configuration Files](#step-3-generate-machine-configuration-files).
@@ -257,15 +221,19 @@ Reapply patches to generate updated machine configuration files for each node, a
 
 Upgrade each node one at a time, replacing `{image_factory_id}` with the appropriate image ID from Step 1 and `{version}` with the target Talos version (e.g., `1.11.1`):
 
+```bash
+export talos_version=1.14.0
+```
+
 ```sh
-t upgrade --drain=false -n talos01 -i factory.talos.dev/metal-installer/$(curl -s -X POST --data-binary @customization/arm.yaml https://factory.talos.dev/schematics | jq -r '.id'):v{version}
-t upgrade --drain=false -n talos02 -i factory.talos.dev/metal-installer/$(curl -s -X POST --data-binary @customization/arm.yaml https://factory.talos.dev/schematics | jq -r '.id'):v{version}
-t upgrade --drain=false -n talos03 -i factory.talos.dev/metal-installer/$(curl -s -X POST --data-binary @customization/arm.yaml https://factory.talos.dev/schematics | jq -r '.id'):v{version}
-t upgrade --drain=false -n talos04 -i factory.talos.dev/metal-installer-secureboot/$(curl -s -X POST --data-binary @customization/longhorn.yaml https://factory.talos.dev/schematics | jq -r '.id'):v{version}
-t upgrade --drain=false -n talos05 -i factory.talos.dev/metal-installer-secureboot/$(curl -s -X POST --data-binary @customization/longhorn.yaml https://factory.talos.dev/schematics | jq -r '.id'):v{version}
-t upgrade --drain=false -n talos06 -i factory.talos.dev/metal-installer-secureboot/$(curl -s -X POST --data-binary @customization/longhorn.yaml https://factory.talos.dev/schematics | jq -r '.id'):v{version}
-t upgrade --drain=false -n talos07 -i factory.talos.dev/metal-installer-secureboot/$(curl -s -X POST --data-binary @customization/longhorn-coral-nvidia.yaml https://factory.talos.dev/schematics | jq -r '.id'):v{version}
-t upgrade --drain=false -n talos08 -i factory.talos.dev/metal-installer-secureboot/$(curl -s -X POST --data-binary @customization/longhorn-coral-nvidia.yaml https://factory.talos.dev/schematics | jq -r '.id'):v{version}
+t upgrade --drain=false -n talos01 -i factory.talos.dev/metal-installer/$(curl -s -X POST --data-binary @customization/arm.yaml https://factory.talos.dev/schematics | jq -r '.id'):v${talos_version}
+t upgrade --drain=false -n talos02 -i factory.talos.dev/metal-installer/$(curl -s -X POST --data-binary @customization/arm.yaml https://factory.talos.dev/schematics | jq -r '.id'):v${talos_version}
+t upgrade --drain=false -n talos03 -i factory.talos.dev/metal-installer/$(curl -s -X POST --data-binary @customization/arm.yaml https://factory.talos.dev/schematics | jq -r '.id'):v${talos_version}
+t upgrade --drain=false -n talos04 -i factory.talos.dev/metal-installer-secureboot/$(curl -s -X POST --data-binary @customization/longhorn.yaml https://factory.talos.dev/schematics | jq -r '.id'):v${talos_version}
+t upgrade --drain=false -n talos05 -i factory.talos.dev/metal-installer-secureboot/$(curl -s -X POST --data-binary @customization/longhorn.yaml https://factory.talos.dev/schematics | jq -r '.id'):v${talos_version}
+t upgrade --drain=false -n talos06 -i factory.talos.dev/metal-installer-secureboot/$(curl -s -X POST --data-binary @customization/longhorn.yaml https://factory.talos.dev/schematics | jq -r '.id'):v${talos_version}
+t upgrade --drain=false -n talos07 -i factory.talos.dev/metal-installer-secureboot/$(curl -s -X POST --data-binary @customization/longhorn-coral-nvidia.yaml https://factory.talos.dev/schematics | jq -r '.id'):v${talos_version}
+t upgrade --drain=false -n talos08 -i factory.talos.dev/metal-installer-secureboot/$(curl -s -X POST --data-binary @customization/longhorn-coral-nvidia.yaml https://factory.talos.dev/schematics | jq -r '.id'):v${talos_version}
 ```
 
 > [!NOTE]

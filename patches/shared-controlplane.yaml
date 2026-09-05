@@ -2,36 +2,48 @@ machine:
   certSANs:
     - talos-api.whezzel.com
     - talos-api
-  install:
-    extraKernelArgs:
-      - -net.ifnames
-      - net.ifnames=0
-    # Run the following command to generate the image id
-    # curl -s -X POST --data-binary @customization/arm.yaml https://factory.talos.dev/schematics | jq -r '.id'
-    # download image: wget -c https://factory.talos.dev/image/$(curl -s -X POST --data-binary @customization/arm.yaml https://factory.talos.dev/schematics | jq -r '.id')/v1.11.1/metal-arm64.raw.xz -O metal-arm64-raw-1.10.6.raw.xz
-    # extract with xz and flash with rpi-imager
-    image: factory.talos.dev/metal-installer/6700767ba5f9fb4e77a08c64b0706c6bd6dc8d2579cda35df7c11e3b04eb5716:v1.13.9
-    grubUseUKICmdline: false
-  kernel:
-    modules:
-      - name: i2c-dev
-      - name: rtc-ds1307
-cluster:
-  network:
-    cni:
-      name: none
-  controllerManager:
-    extraArgs:
-      bind-address: 0.0.0.0
-  proxy:
-    disabled: true
-  scheduler:
-    extraArgs:
-      bind-address: 0.0.0.0
-  extraManifests:
-    - https://raw.githubusercontent.com/alex1989hu/kubelet-serving-cert-approver/main/deploy/standalone-install.yaml
-    - https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
-  allowSchedulingOnControlPlanes: false
+---
+apiVersion: v1alpha1
+kind: UnattendedInstallConfig
+installer:
+  # Run the following command to generate the image id
+  # curl -s -X POST --data-binary @customization/arm.yaml https://factory.talos.dev/schematics | jq -r '.id'
+  # download image: wget -c https://factory.talos.dev/image/$(curl -s -X POST --data-binary @customization/arm.yaml https://factory.talos.dev/schematics | jq -r '.id')/v1.11.1/metal-arm64.raw.xz -O metal-arm64-raw-1.10.6.raw.xz
+  # extract with xz and flash with rpi-imager
+  image: factory.talos.dev/metal-installer/6700767ba5f9fb4e77a08c64b0706c6bd6dc8d2579cda35df7c11e3b04eb5716:v1.14.0
+---
+apiVersion: v1alpha1
+kind: KubeNodeConfig
+labels:
+    node-role.kubernetes.io/control-plane: ""
+taints:
+    node-role.kubernetes.io/control-plane: NoSchedule
+---
+apiVersion: v1alpha1
+kind: KubeProxyConfig
+enabled: false
+---
+apiVersion: v1alpha1
+kind: KubeFlannelCNIConfig
+$patch: delete
+---
+apiVersion: v1alpha1
+kind: KubeExternalManifestConfig
+name: kubelet-serving-cert
+url: https://raw.githubusercontent.com/alex1989hu/kubelet-serving-cert-approver/main/deploy/standalone-install.yaml
+---
+apiVersion: v1alpha1
+kind: KubeExternalManifestConfig
+name: metrics-server
+url: https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+---
+apiVersion: v1alpha1
+kind: KernelModuleConfig
+name: i2c-dev
+---
+apiVersion: v1alpha1
+kind: KernelModuleConfig
+name: rtc-ds1307
 ---
 apiVersion: v1alpha1
 kind: Layer2VIPConfig
