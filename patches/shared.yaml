@@ -10,7 +10,7 @@ nodeIP:
   validSubnets:
     - 10.69.20.0/24
     - '!10.69.21.0/24'
-    - fd69:0:0:20::/64
+    - fd69:0:0:20::11/124
     - '!fd69:0:0:21::/64'
 ---
 apiVersion: v1alpha1
@@ -22,10 +22,10 @@ apiVersion: v1alpha1
 kind: KubeNetworkConfig
 podSubnets:
   - 10.244.0.0/16
-  - fd69:0:244::/56
+  - fd6a:0:244::/56
 serviceSubnets:
   - 10.96.0.0/12
-  - fd69:0:96::/112
+  - fd6a:0:96::/112
 ---
 apiVersion: v1alpha1
 kind: StaticHostConfig
@@ -180,7 +180,7 @@ apiVersion: v1alpha1
 kind: RoutingRuleConfig
 name: "2002"
 src: fd69:0:0:21::/64
-dst: fd69:0:244::/56
+dst: fd6a:0:244::/56
 table: main
 action: unicast
 ---
