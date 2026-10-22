@@ -4,7 +4,7 @@ kind: UnattendedInstallConfig
 installer:
   # Run the following command to generate the image id
   # curl -s -X POST --data-binary @customization/longhorn-coral-nvidia.yaml https://factory.talos.dev/schematics | jq -r '.id'
-  image: factory.talos.dev/metal-installer-secureboot/4116313c23ec662d0691c354f73dd1ea8adffaeb11a6672ee7fb836f335aa16b:v1.14.0
+  image: factory.talos.dev/metal-installer-secureboot/4116313c23ec662d0691c354f73dd1ea8adffaeb11a6672ee7fb836f335aa16b:v1.14.4
 ---
 apiVersion: v1alpha1
 kind: SysctlConfig
