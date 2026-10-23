@@ -49,3 +49,10 @@ apiVersion: v1alpha1
 kind: Layer2VIPConfig
 name: 10.69.20.10
 link: eth0
+---
+apiVersion: v1alpha1
+kind: KubeTalosAPIAccessConfig
+allowedRoles:
+  - os:etcd:backup
+allowedKubernetesNamespaces:
+  - talos-backup
