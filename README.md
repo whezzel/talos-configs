@@ -222,7 +222,7 @@ Reapply patches to generate updated machine configuration files for each node, a
 Upgrade each node one at a time, replacing `{image_factory_id}` with the appropriate image ID from Step 1 and `{version}` with the target Talos version (e.g., `1.11.1`):
 
 ```bash
-export talos_version=1.14.0
+export talos_version=1.14.5
 ```
 
 ```sh
